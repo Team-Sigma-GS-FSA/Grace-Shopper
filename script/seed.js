@@ -1,8 +1,9 @@
 'use strict'
 
-const db = require('../server/db')
+const {db} = require('../server/db')
 const {User} = require('../server/db/models')
 const fs = require('fs')
+const path = require('path')
 
 const parseCsv = csvData => {
   const rows = csvData.split('\n')
@@ -20,11 +21,14 @@ const parseCsv = csvData => {
 }
 
 const seed = async () => {
-  await db.sync({force: true})
-  console.log('db synced!')
-
   try {
-    const userSeedCsv = fs.readFileSync('./userSeed.csv', 'utf-8')
+    await db.sync({force: true})
+    console.log('db synced!')
+    console.log('********', path.join(__dirname, '/userSeed.csv'))
+    const userSeedCsv = fs.readFileSync(
+      path.join(__dirname, '/userSeed.csv'),
+      'utf-8'
+    )
     const userSeedObjs = parseCsv(userSeedCsv)
     const users = await User.bulkCreate(userSeedObjs)
     console.log(`seeded ${users.length} users`)

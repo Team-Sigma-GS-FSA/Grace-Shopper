@@ -1,7 +1,6 @@
 /* global describe beforeEach it */
 
 const {expect} = require('chai')
-const {string} = require('prop-types')
 const db = require('../index')
 const User = db.model('user')
 

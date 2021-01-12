@@ -1,3 +1,6 @@
+
+_Issue description here…_
+=======
 For bugs, please include the following:
 
 * What is the expected behavior?
@@ -12,4 +15,3 @@ For features, please specify at least minimal requirements, e.g.:
 
 ---
 
-_Issue description here…_

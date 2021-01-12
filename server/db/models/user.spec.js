@@ -29,6 +29,9 @@ describe('User model', () => {
       })
     }) // end describe('correctPassword')
   }) // end describe('instanceMethods')
+<<<<<<< HEAD
+}) // end describe('User model')
+=======
 
   describe('User Fields', () => {
     let chad
@@ -57,3 +60,4 @@ describe('User model', () => {
     })
   })
 }) // end describe('User model')
+>>>>>>> 902095a31ee4265e505ba74ea8efbedc4d8f6ea3

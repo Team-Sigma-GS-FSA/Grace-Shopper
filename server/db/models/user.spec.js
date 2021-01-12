@@ -47,7 +47,7 @@ describe('User model', () => {
         expect(typeof chad.Name).to.equal('string')
       })
       it('returns true if email is not empty', () => {
-        expect(chad.Email).to.have.lengthOf(17)
+        expect(chad.Email).to.have.lengthOf(18)
       })
       it('returns true if type is consumer or admin', () => {
         expect(chad.Type).to.equal('admin' || 'consumer')

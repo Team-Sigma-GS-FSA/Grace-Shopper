@@ -56,8 +56,4 @@ if (module === require.main) {
 }
 
 // we export the seed function for testing purposes (see `./seed.spec.js`)
-<<<<<<< HEAD
 module.exports = seed
-=======
-module.exports = seed
->>>>>>> 902095a31ee4265e505ba74ea8efbedc4d8f6ea3

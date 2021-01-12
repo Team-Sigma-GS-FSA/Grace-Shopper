@@ -1,3 +1,4 @@
+
 const path = require('path')
 const express = require('express')
 const morgan = require('morgan')
@@ -57,7 +58,7 @@ const createApp = () => {
       secret: process.env.SESSION_SECRET || 'my best friend is Cody',
       store: sessionStore,
       resave: false,
-      saveUninitialized: false
+      saveUninitialized: false,
     })
   )
   app.use(passport.initialize())
@@ -122,3 +123,4 @@ if (require.main === module) {
 } else {
   createApp()
 }
+

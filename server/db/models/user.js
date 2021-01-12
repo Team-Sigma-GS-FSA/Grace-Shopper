@@ -49,7 +49,6 @@ const User = db.define('user', {
   },
   cardType: {
     type: Sequelize.ENUM('visa', 'mastercard', 'AMEX'),
-    allowNull: false
   },
   cardNumber: {
     type: Sequelize.INTEGER(16),

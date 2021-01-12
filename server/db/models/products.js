@@ -28,4 +28,4 @@ const Product = db.define('product', {
   }
 })
 
-module.exports = User
+module.exports = Product

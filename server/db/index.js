@@ -3,7 +3,7 @@ const User = require('./models/user')
 const Product = require('./models/product')
 const {Sequelize} = require('sequelize/types')
 
-const Order = Sequelize.define('order', {
+const Order = db.define('order', {
   orderId: {
     type: Sequelize.INTEGER,
     primaryKey: true,

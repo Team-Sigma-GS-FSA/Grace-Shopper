@@ -1,3 +1,4 @@
+
 const crypto = require('crypto')
 const Sequelize = require('sequelize')
 const db = require('../db')
@@ -68,3 +69,4 @@ User.beforeUpdate(setSaltAndPassword)
 User.beforeBulkCreate((users) => {
   users.forEach(setSaltAndPassword)
 })
+

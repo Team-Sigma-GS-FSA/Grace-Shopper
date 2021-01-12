@@ -1,3 +1,4 @@
+
 # Updates to Boilermaker
 
 ## Tuesday, April 9th, 2019
@@ -62,6 +63,3 @@
 
 ## Thursday, April 11th, 2019
 
-### Dependencies
-
-- sequelize update to 5.3.1 from 5.2.15

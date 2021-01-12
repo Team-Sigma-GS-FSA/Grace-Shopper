@@ -1,3 +1,4 @@
+
 /* global describe beforeEach it */
 
 const {expect} = require('chai')

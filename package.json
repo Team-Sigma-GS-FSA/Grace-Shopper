@@ -1,7 +1,7 @@
 {
-  "name": "boilermaker",
-  "version": "2.0.0",
-  "description": "Some boilerplate code to get you started - get shakin'!",
+  "name": "grace-shopper",
+  "version": "1.0.0",
+  "description": "an e-commerce app for Fullstack Academy",
   "engines": {
     "node": "~12.11.1"
   },
@@ -41,7 +41,7 @@
   "author": "Fullstack Academy of Code",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "compression": "^1.7.3",
     "connect-session-sequelize": "^6.0.0",
     "express": "^4.16.4",
@@ -52,7 +52,6 @@
     "passport-google-oauth": "^2.0.0",
     "pg": "^7.9.0",
     "pg-hstore": "^2.3.2",
-    "prettier": "^2.2.1",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -61,7 +60,7 @@
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-    "sequelize": "^5.3.1",
+    "sequelize": "^5.22.3",
     "socket.io": "^2.2.0"
   },
   "devDependencies": {
@@ -94,7 +93,8 @@
     "lint-staged": "^8.1.5",
     "mocha": "^6.1.4",
     "nodemon": "^1.18.3",
-    "npm-merge-driver": "^2.3.5",
+    "npm-merge-driver": "^2.3.6",
+    "prettier": "1.11.1",
     "react-test-renderer": "^16.4.2",
     "redux-devtools-extension": "^2.13.5",
     "redux-mock-store": "^1.5.3",

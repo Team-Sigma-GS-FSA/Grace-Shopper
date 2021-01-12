@@ -1,3 +1,4 @@
+
 const Sequelize = require('sequelize')
 const pkg = require('../../package.json')
 
@@ -16,3 +17,4 @@ module.exports = db
 if (process.env.NODE_ENV === 'test') {
   after('close database connection', () => db.close())
 }
+

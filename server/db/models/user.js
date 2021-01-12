@@ -3,6 +3,18 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const User = db.define('user', {
+  firstName: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  lastName: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  type: {
+    type: Sequelize.ENUM('consumer', 'admin'),
+    allowNull: false
+  },
   email: {
     type: Sequelize.STRING,
     unique: true,
@@ -26,6 +38,45 @@ const User = db.define('user', {
   },
   googleId: {
     type: Sequelize.STRING
+  },
+  street: {type: Sequelize.STRING},
+  city: {type: Sequelize.STRING},
+  state: {type: Sequelize.CHAR(2)},
+  postalCode: {type: Sequelize.FLOAT(5)},
+  Country: {
+    type: Sequelize.STRING,
+    defaultValue: 'United States'
+  },
+  cardType: {
+    type: Sequelize.ENUM('visa', 'mastercard', 'AMEX'),
+    allowNull: false
+  },
+  cardNumber: {
+    type: Sequelize.FLOAT(16),
+    get() {
+      return () => this.getDataValue('cardNumber')
+    }
+  },
+  cardExpMonth: {
+    type: Sequelize.ENUM(
+      '01',
+      '02',
+      '03',
+      '04',
+      '05',
+      '06',
+      '07',
+      '08',
+      '09',
+      '10',
+      '11',
+      '12'
+    ),
+    allowNull: false
+  },
+  cardExpYear: {
+    type: Sequelize.ENUM('21', '22', '23', '24', '25', '26', '27'),
+    allowNull: false
   }
 })
 

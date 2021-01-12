@@ -13,8 +13,7 @@ const Product = db.define('product', {
   inventoryQuantity: {
     type: Sequelize.INTEGER,
     validate: {
-      min: 0,
-      max: 100
+      min: 0
     }
   },
   imageUrl: {

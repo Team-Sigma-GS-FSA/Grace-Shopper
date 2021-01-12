@@ -2,23 +2,38 @@
 
 const db = require('../server/db')
 const {User} = require('../server/db/models')
+const fs = require('fs')
 
-async function seed() {
+const parseCsv = csvData => {
+  const rows = csvData.split('\n')
+  const keys = rows.shift().split(',')
+  const parsedCsv = []
+  rows.forEach(row => {
+    const values = row.split(',')
+    const newObj = {}
+    keys.forEach((key, i) => {
+      newObj[key] = values[i]
+    })
+    parsedCsv.push(newObj)
+  })
+  return parsedCsv
+}
+
+const seed = async () => {
   await db.sync({force: true})
   console.log('db synced!')
 
-  const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123'}),
-    User.create({email: 'murphy@email.com', password: '123'})
-  ])
-
-  console.log(`seeded ${users.length} users`)
-  console.log(`seeded successfully`)
+  try {
+    const userSeedCsv = fs.readFileSync('./userSeed.csv', 'utf-8')
+    const userSeedObjs = parseCsv(userSeedCsv)
+    const users = await User.bulkCreate(userSeedObjs)
+    console.log(`seeded ${users.length} users`)
+    console.log(`seeded successfully`)
+  } catch (error) {
+    console.error(error)
+  }
 }
 
-// We've separated the `seed` function from the `runSeed` function.
-// This way we can isolate the error handling and exit trapping.
-// The `seed` function is concerned only with modifying the database.
 async function runSeed() {
   console.log('seeding...')
   try {
@@ -41,4 +56,8 @@ if (module === require.main) {
 }
 
 // we export the seed function for testing purposes (see `./seed.spec.js`)
+<<<<<<< HEAD
 module.exports = seed
+=======
+module.exports = seed
+>>>>>>> 902095a31ee4265e505ba74ea8efbedc4d8f6ea3

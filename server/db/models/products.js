@@ -25,7 +25,7 @@ const Product = db.define('product', {
   },
   category: {
     type: Sequelize.ENUM('adult', 'kids', 'luxury', 'misc'),
-    defaultValue: 'l'
+    defaultValue: 'luxury'
   }
 })
 

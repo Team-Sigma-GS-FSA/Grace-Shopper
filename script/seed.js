@@ -6,12 +6,14 @@ const fs = require('fs')
 
 const parseCsv = csvData => {
   const rows = csvData.split('\n')
-  const keys = csvData.unshift().split(',')
+  const keys = rows.shift().split(',')
   const parsedCsv = []
   rows.forEach(row => {
     const values = row.split(',')
-    const entries = new Map([keys, values])
-    const newObj = Object.fromEntries(entries)
+    const newObj = {}
+    keys.forEach((key, i) => {
+      newObj[key] = values[i]
+    })
     parsedCsv.push(newObj)
   })
   return parsedCsv
@@ -32,9 +34,6 @@ const seed = async () => {
   }
 }
 
-// We've separated the `seed` function from the `runSeed` function.
-// This way we can isolate the error handling and exit trapping.
-// The `seed` function is concerned only with modifying the database.
 async function runSeed() {
   console.log('seeding...')
   try {

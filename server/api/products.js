@@ -5,7 +5,7 @@ const {Product} = require('../db/models')
 router.get('/', async (req, res, next) => {
   try {
     const products = await Product.findAll({
-      attributes: ['name', 'price', 'imageUrl', 'description', 'category']
+      attributes: ['id', 'name', 'price', 'imageUrl', 'description', 'category']
     })
     res.json(products)
   } catch (error) {
@@ -16,7 +16,7 @@ router.get('/', async (req, res, next) => {
 // GET /api/products/:productId "Single Product"
 router.get('/:productId', async (req, res, next) => {
   try {
-    const product = await Product.findByPk(req.body.params.productId)
+    const product = await Product.findByPk(req.params.productId)
     res.send(product)
   } catch (error) {
     next(error)

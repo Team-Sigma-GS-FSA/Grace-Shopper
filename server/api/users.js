@@ -14,9 +14,9 @@ router.get('/', async (req, res, next) => {
 // GET /api/users/:userId "Single User"
 router.get('/:userId', async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.params.userId, {
-      include: [Order]
-    })
+
+    const user = await User.findByPk(req.params.userId)
+    
     if (!user) {
       res.sendStatus(404).end()
     }
@@ -58,11 +58,11 @@ router.post('/', async (req, res, next) => {
 // PUT / api/users/:userId "Update User"
 router.put('/:userId', async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.params.userId, {include: [Order]})
+    const user = await User.findByPk(req.params.userId)
     if (!user) {
       res.sendStatus(404).end()
     }
-    await User.update(req.body)
+    await user.update(req.body)
     res.status(202).send(user)
   } catch (error) {
     next(error)

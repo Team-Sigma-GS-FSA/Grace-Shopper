@@ -1,4 +1,3 @@
-
 const path = require('path')
 const express = require('express')
 const morgan = require('morgan')
@@ -6,7 +5,7 @@ const compression = require('compression')
 const session = require('express-session')
 const passport = require('passport')
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
-const db = require('./db')
+const {db} = require('../server/db')
 const sessionStore = new SequelizeStore({db})
 const PORT = process.env.PORT || 8080
 const app = express()
@@ -58,7 +57,7 @@ const createApp = () => {
       secret: process.env.SESSION_SECRET || 'my best friend is Cody',
       store: sessionStore,
       resave: false,
-      saveUninitialized: false,
+      saveUninitialized: false
     })
   )
   app.use(passport.initialize())
@@ -123,4 +122,3 @@ if (require.main === module) {
 } else {
   createApp()
 }
-

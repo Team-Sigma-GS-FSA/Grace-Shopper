@@ -1,8 +1,7 @@
-
 const db = require('./db')
 const User = require('./models/user')
-const Product = require('./models/product')
-const {Sequelize} = require('sequelize/types')
+const Product = require('./models/products')
+const {Sequelize} = require('sequelize')
 
 const Order = db.define('order', {
   orderId: {

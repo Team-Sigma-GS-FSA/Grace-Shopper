@@ -6,11 +6,11 @@ const {User, Product} = require('../server/db/models')
 const fs = require('fs')
 const path = require('path')
 
-const parseCsv = (csvData) => {
+const parseCsv = csvData => {
   const rows = csvData.split('\n')
   const keys = rows.shift().split(',')
   const parsedCsv = []
-  rows.forEach((row) => {
+  rows.forEach(row => {
     if (row.length > 0) {
       const values = row.split(',')
       const newObj = {}

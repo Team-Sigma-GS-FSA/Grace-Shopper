@@ -6,7 +6,7 @@ module.exports = router
 router.get('/', async (req, res, next) => {
   try {
     const products = await Product.findAll({
-      attributes: ['name', 'price', 'imageUrl', 'description', 'category'],
+      attributes: ['name', 'price', 'imageUrl', 'description', 'category']
     })
     console.log('hello from the other side')
     res.json(products)
@@ -35,8 +35,8 @@ router.post('/', async (req, res, next) => {
         inventoryQuantity: req.body.inventoryQuantity,
         imageUrl: req.body.imageUrl,
         description: req.body.description,
-        category: req.body.category,
-      },
+        category: req.body.category
+      }
     })
     res.send(product)
   } catch (err) {
@@ -48,7 +48,7 @@ router.post('/', async (req, res, next) => {
 router.put('/productId', async (req, res, next) => {
   try {
     const {productId} = req.params
-    const product = await Product.findByPk(productId)
+    let product = await Product.findByPk(productId)
 
     product = await product.update(req.body)
 

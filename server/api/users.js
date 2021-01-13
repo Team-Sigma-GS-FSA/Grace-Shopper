@@ -20,7 +20,7 @@ router.get('/:userId', async (req, res, next) => {
     if (!user) {
       res.sendStatus(404).end()
     }
-    res.send(user)
+    res.json(user)
   } catch (error) {
     next(error)
   }

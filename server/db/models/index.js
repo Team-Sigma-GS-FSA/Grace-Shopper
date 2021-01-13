@@ -17,5 +17,5 @@ const Product = require('./product')
 
 module.exports = {
   User,
-  Product,
+  Product
 }

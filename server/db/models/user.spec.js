@@ -16,7 +16,7 @@ describe('User model', () => {
       beforeEach(async () => {
         cody = await User.create({
           email: 'cody@puppybook.com',
-          password: 'bones',
+          password: 'bones'
         })
       })
 
@@ -29,9 +29,6 @@ describe('User model', () => {
       })
     }) // end describe('correctPassword')
   }) // end describe('instanceMethods')
-<<<<<<< HEAD
-}) // end describe('User model')
-=======
 
   describe('User Fields', () => {
     let chad
@@ -41,7 +38,7 @@ describe('User model', () => {
         Name: 'Chad',
         Email: 'cdayton96@gmail.com',
         Type: 'consumer',
-        Password: 'N0tMyP@ssword',
+        Password: 'N0tMyP@ssword'
       })
 
       it('returns true if name is type string', () => {
@@ -60,4 +57,3 @@ describe('User model', () => {
     })
   })
 }) // end describe('User model')
->>>>>>> 902095a31ee4265e505ba74ea8efbedc4d8f6ea3

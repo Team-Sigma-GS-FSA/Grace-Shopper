@@ -1,40 +1,55 @@
 'use strict'
 
-const db = require('../server/db')
-const {User} = require('../server/db/models')
+const {db, User, Product, Order} = require('../server/db')
 
 const fs = require('fs')
 const path = require('path')
 
-const parseCsv = (csvData) => {
+const parseCsv = csvData => {
   const rows = csvData.split('\n')
   const keys = rows.shift().split(',')
   const parsedCsv = []
-  rows.forEach((row) => {
-    const values = row.split(',')
-    const newObj = {}
-    keys.forEach((key, i) => {
-      newObj[key] = values[i]
-    })
-    parsedCsv.push(newObj)
+  rows.forEach(row => {
+    if (row.length > 0) {
+      const values = row.split(',')
+      const newObj = {}
+      keys.forEach((key, i) => {
+        newObj[key] = values[i]
+      })
+      parsedCsv.push(newObj)
+    }
   })
   return parsedCsv
 }
 
 const seed = async () => {
-  await db.sync({force: true})
-  console.log('db synced!')
-
   try {
-    const userSeedCsv = fs.readFileSync('./userSeed.csv', 'utf-8')
+    await db.sync({force: true})
+    console.log('db synced!')
+
+    const userSeedCsv = fs.readFileSync(
+      path.join(__dirname, '/userSeed.csv'),
+      'utf-8'
+    )
     const userSeedObjs = parseCsv(userSeedCsv)
     const users = await User.bulkCreate(userSeedObjs)
     console.log(`seeded ${users.length} users`)
 
-    const productSeedCsv = fs.readFileSync('./productSeed.csv', 'utf-8')
+    const productSeedCsv = fs.readFileSync(
+      path.join(__dirname, '/productSeed.csv'),
+      'utf-8'
+    )
     const productSeedObjs = parseCsv(productSeedCsv)
-    const products = await User.bulkCreate(productSeedObjs)
+    const products = await Product.bulkCreate(productSeedObjs)
     console.log(`seeded ${products.length} products`)
+
+    const orderSeedCsv = fs.readFileSync(
+      path.join(__dirname, '/orderSeed.csv'),
+      'utf-8'
+    )
+    const orderSeedObjs = parseCsv(orderSeedCsv)
+    const orders = await Order.bulkCreate(orderSeedObjs)
+    console.log(`seeded ${orders.length} orders`)
 
     console.log(`seeded successfully`)
   } catch (error) {

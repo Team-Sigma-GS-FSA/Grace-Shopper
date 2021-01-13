@@ -1,69 +1,88 @@
-const router = require('express').Router();
-const { Order, User } = require('../db/')
+const router = require('express').Router()
+const {Order, User} = require('../db/')
 
-// get --> .../ api / user /
+// GET /api/users "All Users"
 router.get('/', async (req, res, next) => {
-	try {
-		let user = await User.findAll();
-		res.send(user);
-	} catch (error) {
-		next(error);
-	}
-});
+  try {
+    let user = await User.findAll()
+    res.send(user)
+  } catch (error) {
+    next(error)
+  }
+})
 
-// get --> .../ api / user / :userId
+// GET /api/users/:userId "Single User"
 router.get('/:userId', async (req, res, next) => {
-	try {
-		const user = await User.findByPk(req.params.userId, {
-			include: [Order]
-		});
-		if (!user) {
-			res.sendStatus(404).end();
-		}
-		res.json(user);
-	} catch (error) {
-		next(error);
-	}
-});
+  try {
+    const user = await User.findByPk(req.params.userId, {
+      include: [Order]
+    })
+    if (!user) {
+      res.sendStatus(404).end()
+    }
+    res.json(user)
+  } catch (error) {
+    next(error)
+  }
+})
 
-// post --> .../ api / user / newuser
-router.post('/newUser', async (req, res, next) => {
-	try {
-		const user = await User.create(req.body);
-		res.sendStatus(204).json(user);
-	} catch (error) {
-		next(error);
-	}
-});
+// POST /api/users/ "New User"
+router.post('/', async (req, res, next) => {
+  try {
+    const user = await User.findOrCreate({
+      where: {email: req.body.email},
+      defaults: {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        type: req.body.type,
+        email: req.body.email,
+        password: req.body.password,
+        name: req.body.name,
+        street: req.body.street,
+        city: req.body.city,
+        state: req.body.state,
+        postalCode: req.body.postalCode,
+        country: req.body.country,
+        cardType: req.body.cardType,
+        cardNumber: req.body.cardNumber,
+        cardExpMonth: req.body.cardExpMonth,
+        cardExpYear: req.body.cardExpYear
+      }
+    })
+    res.sendStatus(204).json(user)
+  } catch (error) {
+    next(error)
+  }
+})
 
-// put --> .../ api / user / :userId
+// PUT / api/users/:userId "Update User"
 router.put('/:userId', async (req, res, next) => {
-	try {
-		const user = await User.findByPk(req.params.userId, { include: [Robot] });
-		if (!user) {
-			res.sendStatus(404).end();
-		}
-		await User.update(req.body);
-		res.status(202).json(user);
-	} catch (error) {
-		next(error);
-	}
-});
+  try {
+    const user = await User.findByPk(req.params.userId, {include: [Order]})
+    if (!user) {
+      res.sendStatus(404).end()
+    }
+    await User.update(req.body)
+    res.status(202).send(user)
+  } catch (error) {
+    next(error)
+  }
+})
 
-// delete --> .../ api / user / :userId
+// DELETE /api/users/:userId "Delete User"
 router.delete('/:userId', async (req, res, next) => {
-	try {
-		let user = await User.destroy({
-			where: {
-				id: req.params.userId
-			}
-		});
-		if (!user) {
-			res.sendStatus(404).end();
-		}
-		res.status(204).end();
-	} catch (error) {
-		next(error);
-	}
-});
-module.exports = router;
+  try {
+    let user = await User.destroy({
+      where: {
+        id: req.params.userId
+      }
+    })
+    if (!user) {
+      res.sendStatus(404).end()
+    }
+    res.status(204).end()
+  } catch (error) {
+    next(error)
+  }
+})
+module.exports = router

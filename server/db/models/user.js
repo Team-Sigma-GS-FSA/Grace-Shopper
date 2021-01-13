@@ -42,7 +42,7 @@ const User = db.define('user', {
   street: {type: Sequelize.STRING},
   city: {type: Sequelize.STRING},
   state: {type: Sequelize.CHAR(2)},
-  postalCode: {type: Sequelize.INTEGER(5)},
+  postalCode: {type: Sequelize.INTEGER},
   Country: {
     type: Sequelize.STRING,
     defaultValue: 'United States'
@@ -52,7 +52,7 @@ const User = db.define('user', {
     allowNull: false
   },
   cardNumber: {
-    type: Sequelize.INTEGER(16),
+    type: Sequelize.BIGINT,
     get() {
       return () => this.getDataValue('cardNumber')
     }

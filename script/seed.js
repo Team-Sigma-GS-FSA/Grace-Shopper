@@ -1,7 +1,7 @@
 'use strict'
 
 const {db} = require('../server/db')
-const {User} = require('../server/db/models')
+const {User, Product} = require('../server/db/models')
 const fs = require('fs')
 const path = require('path')
 
@@ -10,12 +10,14 @@ const parseCsv = csvData => {
   const keys = rows.shift().split(',')
   const parsedCsv = []
   rows.forEach(row => {
-    const values = row.split(',')
-    const newObj = {}
-    keys.forEach((key, i) => {
-      newObj[key] = values[i]
-    })
-    parsedCsv.push(newObj)
+    if (row.length > 0) {
+      const values = row.split(',')
+      const newObj = {}
+      keys.forEach((key, i) => {
+        newObj[key] = values[i]
+      })
+      parsedCsv.push(newObj)
+    }
   })
   return parsedCsv
 }
@@ -24,7 +26,7 @@ const seed = async () => {
   try {
     await db.sync({force: true})
     console.log('db synced!')
-    console.log('********', path.join(__dirname, '/userSeed.csv'))
+
     const userSeedCsv = fs.readFileSync(
       path.join(__dirname, '/userSeed.csv'),
       'utf-8'
@@ -32,6 +34,15 @@ const seed = async () => {
     const userSeedObjs = parseCsv(userSeedCsv)
     const users = await User.bulkCreate(userSeedObjs)
     console.log(`seeded ${users.length} users`)
+
+    const productSeedCsv = fs.readFileSync(
+      path.join(__dirname, '/productSeed.csv'),
+      'utf-8'
+    )
+    const productSeedObjs = parseCsv(productSeedCsv)
+    const products = await Product.bulkCreate(productSeedObjs)
+    console.log(`seeded ${products.length} products`)
+
     console.log(`seeded successfully`)
   } catch (error) {
     console.error(error)

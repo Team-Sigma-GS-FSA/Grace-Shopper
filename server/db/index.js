@@ -17,5 +17,7 @@ const Order = db.define('order', {
 })
 User.belongsToMany(Product, {through: 'Order'})
 Product.belongsToMany(User, {through: 'Order'})
+Order.belongsTo(Product)
+Order.belongsTo(User)
 
 module.exports = {db, User, Product, Order}

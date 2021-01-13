@@ -1,4 +1,3 @@
-
 import axios from 'axios'
 import history from '../history'
 
@@ -8,6 +7,7 @@ import history from '../history'
 const GET_USER = 'GET_USER'
 const DELETE_USER = 'DELETE_USER'
 const CREATE_USER = 'CREATE_USER'
+const UPDATE_USER = 'UPDATE_USER'
 
 /**
  * INITIAL STATE
@@ -17,20 +17,29 @@ const defaultUser = {}
 /**
  * ACTION CREATORS
  */
-const getUser = (user) => ({type: GET_USER, user})
-const deleteUser = () => ({type: DELETE_USER})
-export const _createUser = (user) => ({type: CREATE_USER, user})
+const getUser = user => ({type: GET_USER, user})
+export const _deleteUser = user => ({type: DELETE_USER, user})
+export const _createUser = user => ({type: CREATE_USER, user})
+export const _updateUser = user => ({type: UPDATE_USER, user})
 
 /**
  * THUNK CREATORS
  */
 
-export const createUser = (user) => async (dispatch) => {
+export const createUser = user => async dispatch => {
   const {data} = await axios.post('/api/users', user)
   dispatch(_createUser(data))
 }
+export const deleteUser = user => async dispatch => {
+  await axios.delete(`/api/users/${user.id}`)
+  dispatch(_deleteUser(user))
+}
+export const updateUser = user => async dispatch => {
+  const {data} = await axios.put(`/api/users/${user.id}`, user)
+  dispatch(_updateUser(data))
+}
 
-export const me = () => async (dispatch) => {
+export const me = () => async dispatch => {
   try {
     const res = await axios.get('/auth/me')
     dispatch(getUser(res.data || defaultUser))
@@ -39,7 +48,7 @@ export const me = () => async (dispatch) => {
   }
 }
 
-export const auth = (email, password, method) => async (dispatch) => {
+export const auth = (email, password, method) => async dispatch => {
   let res
   try {
     res = await axios.post(`/auth/${method}`, {email, password})
@@ -55,7 +64,7 @@ export const auth = (email, password, method) => async (dispatch) => {
   }
 }
 
-export const logout = () => async (dispatch) => {
+export const logout = () => async dispatch => {
   try {
     await axios.post('/auth/logout')
     dispatch(deleteUser())
@@ -68,12 +77,16 @@ export const logout = () => async (dispatch) => {
 /**
  * REDUCER
  */
-export default function (state = defaultUser, action) {
+export default function(state = defaultUser, action) {
   switch (action.type) {
     case GET_USER:
       return action.user
     case DELETE_USER:
       return defaultUser
+    case CREATE_USER:
+      return defaultUser
+    case UPDATE_USER:
+      return action.user
     default:
       return state
   }

@@ -61,6 +61,16 @@ describe('thunk creators', () => {
       await store.dispatch(getAllUsers())
       const actions = store.getActions()
       expect(actions[0].type).to.be.equal('GET_ALL_USERS')
+      console.log(actions[0])
+    })
+  })
+  describe('createUser', () => {
+    it('dispatches _createUser', async () => {
+      mockAxios.onPost('/api/users').replyOnce(201)
+      await store.dispatch(createUser())
+      const actions = store.getActions()
+      expect(actions[0].type).to.be.equal('CREATE_USER')
+      console.log(actions[0])
     })
   })
 })

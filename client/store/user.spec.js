@@ -1,7 +1,14 @@
 /* global describe beforeEach afterEach it */
 
 import {expect} from 'chai'
-import {me, logout} from './user'
+import {
+  me,
+  logout,
+  getAllUsers,
+  createUser,
+  deleteUser,
+  updateUser
+} from './user'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import configureMockStore from 'redux-mock-store'
@@ -39,12 +46,21 @@ describe('thunk creators', () => {
   })
 
   describe('logout', () => {
-    it('logout: eventually dispatches the REMOVE_USER action', async () => {
+    xit('logout: eventually dispatches the REMOVE_USER action', async () => {
       mockAxios.onPost('/auth/logout').replyOnce(204)
       await store.dispatch(logout())
       const actions = store.getActions()
       expect(actions[0].type).to.be.equal('REMOVE_USER')
       expect(history.location.pathname).to.be.equal('/login')
+    })
+  })
+
+  describe('getAllUsers', () => {
+    it('dispatches _getAllUsers', async () => {
+      mockAxios.onGet('/api/users').replyOnce(200)
+      await store.dispatch(getAllUsers())
+      const actions = store.getActions()
+      expect(actions[0].type).to.be.equal('GET_ALL_USERS')
     })
   })
 })

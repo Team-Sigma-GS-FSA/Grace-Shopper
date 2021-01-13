@@ -1,7 +1,6 @@
 'use strict'
 
-const {db} = require('../server/db')
-const {User, Product} = require('../server/db/models')
+const {db, User, Product, Order} = require('../server/db')
 
 const fs = require('fs')
 const path = require('path')
@@ -43,6 +42,14 @@ const seed = async () => {
     const productSeedObjs = parseCsv(productSeedCsv)
     const products = await Product.bulkCreate(productSeedObjs)
     console.log(`seeded ${products.length} products`)
+
+    const orderSeedCsv = fs.readFileSync(
+      path.join(__dirname, '/orderSeed.csv'),
+      'utf-8'
+    )
+    const orderSeedObjs = parseCsv(orderSeedCsv)
+    const orders = await Order.bulkCreate(orderSeedObjs)
+    console.log(`seeded ${orders.length} orders`)
 
     console.log(`seeded successfully`)
   } catch (error) {

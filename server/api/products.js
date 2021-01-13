@@ -28,7 +28,7 @@ router.post('/', async (req, res, next) => {
   try {
     const product = await Product.findOrCreate({
       where: {
-        name: req.body.name,
+        name: req.body.name
       },
       defaults: {
         name: req.body.name,
@@ -64,8 +64,8 @@ router.delete('/:productId', async (req, res, next) => {
   try {
     let product = await Product.destroy({
       where: {
-        id: req.params.productId,
-      },
+        id: req.params.productId
+      }
     })
     if (!product) {
       res.sendStatus(404).end()

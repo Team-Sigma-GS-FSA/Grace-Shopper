@@ -15,7 +15,7 @@ router.get('/', async (req, res, next) => {
 router.get('/:userId', async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.userId, {
-      include: [Order],
+      include: [Order]
     })
     if (!user) {
       res.sendStatus(404).end()
@@ -46,8 +46,8 @@ router.post('/', async (req, res, next) => {
         cardType: req.body.cardType,
         cardNumber: req.body.cardNumber,
         cardExpMonth: req.body.cardExpMonth,
-        cardExpYear: req.body.cardExpYear,
-      },
+        cardExpYear: req.body.cardExpYear
+      }
     })
     res.sendStatus(204).json(user)
   } catch (error) {
@@ -74,8 +74,8 @@ router.delete('/:userId', async (req, res, next) => {
   try {
     let user = await User.destroy({
       where: {
-        id: req.params.userId,
-      },
+        id: req.params.userId
+      }
     })
     if (!user) {
       res.sendStatus(404).end()

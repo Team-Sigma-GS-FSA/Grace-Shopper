@@ -73,4 +73,24 @@ describe('thunk creators', () => {
       console.log(actions[0])
     })
   })
+  describe('deleteUser', () => {
+    let fakeUser = {id: 9999, first: 'Dum', last: 'Eeh', email: 'asd@asd.asd'}
+    it('dispatches _deleteUser', async () => {
+      mockAxios.onDelete('/api/users/9999').replyOnce(204)
+      await store.dispatch(deleteUser(fakeUser))
+      const actions = store.getActions()
+      expect(actions[0].type).to.be.equal('DELETE_USER')
+      console.log(actions[0])
+    })
+  })
+  describe('updateUser', () => {
+    let fakeUser = {id: 9999, first: 'Dumb', last: 'Eee', email: 'asd@asd.asd'}
+    it('dispatches _updateUser', async () => {
+      mockAxios.onPut('/api/users/9999').replyOnce(204)
+      await store.dispatch(updateUser(fakeUser))
+      const actions = store.getActions()
+      expect(actions[0].type).to.be.equal('UPDATE_USER')
+      console.log(actions[0])
+    })
+  })
 })

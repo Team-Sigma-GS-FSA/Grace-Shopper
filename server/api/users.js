@@ -7,8 +7,8 @@ router.get('/', async (req, res, next) => {
     let user = await User.findAll({
       include: [
         {
-          model: Order
-          // include: [OrderProduct],
+          model: Order,
+          include: [OrderProduct]
         }
       ]
     })
@@ -24,8 +24,8 @@ router.get('/:userId', async (req, res, next) => {
     const user = await User.findByPk(req.params.userId, {
       include: [
         {
-          model: Order
-          // include: [OrderProduct],
+          model: Order,
+          include: [OrderProduct]
         }
       ]
     })

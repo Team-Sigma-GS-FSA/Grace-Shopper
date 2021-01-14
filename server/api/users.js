@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {User, Order, OrderProduct} = require('../db/')
+const {User, Order, Product, OrderProduct} = require('../db/')
 
 // GET /api/users "All Users"
 router.get('/', async (req, res, next) => {
@@ -8,7 +8,7 @@ router.get('/', async (req, res, next) => {
       include: [
         {
           model: Order,
-          include: [OrderProduct]
+          include: [Product]
         }
       ]
     })
@@ -25,7 +25,7 @@ router.get('/:userId', async (req, res, next) => {
       include: [
         {
           model: Order,
-          include: [OrderProduct]
+          include: [{model: Product, through: OrderProduct}]
         }
       ]
     })

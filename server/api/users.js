@@ -1,10 +1,17 @@
 const router = require('express').Router()
-const {Order, User} = require('../db/')
+const {User, Order, OrderProduct} = require('../db/')
 
 // GET /api/users "All Users"
 router.get('/', async (req, res, next) => {
   try {
-    let user = await User.findAll()
+    let user = await User.findAll({
+      include: [
+        {
+          model: Order
+          // include: [OrderProduct],
+        }
+      ]
+    })
     res.send(user)
   } catch (error) {
     next(error)
@@ -14,8 +21,14 @@ router.get('/', async (req, res, next) => {
 // GET /api/users/:userId "Single User"
 router.get('/:userId', async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.params.userId)
-
+    const user = await User.findByPk(req.params.userId, {
+      include: [
+        {
+          model: Order
+          // include: [OrderProduct],
+        }
+      ]
+    })
     if (!user) {
       res.sendStatus(404).end()
     }

@@ -8,7 +8,10 @@ const Product = db.define('product', {
     allowNull: false
   },
   price: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    get() {
+      return Number(this.getDataValue('price'))
+    }
   },
   inventoryQuantity: {
     type: Sequelize.INTEGER,

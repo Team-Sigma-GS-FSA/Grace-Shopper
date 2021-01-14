@@ -1,11 +1,19 @@
 const router = require('express').Router()
-const {Product} = require('../db/models')
+const {Product, Order, OrderProduct} = require('../db/models')
 
 // GET /api/products "All Products"
 router.get('/', async (req, res, next) => {
   try {
     const products = await Product.findAll({
-      attributes: ['id', 'name', 'price', 'imageUrl', 'description', 'category']
+      attributes: [
+        'id',
+        'name',
+        'price',
+        'imageUrl',
+        'description',
+        'category'
+      ],
+      include: [{model: Order}]
     })
     res.json(products)
   } catch (error) {
@@ -16,7 +24,14 @@ router.get('/', async (req, res, next) => {
 // GET /api/products/:productId "Single Product"
 router.get('/:productId', async (req, res, next) => {
   try {
-    const product = await Product.findByPk(req.params.productId)
+    const product = await Product.findByPk(req.params.productId, {
+      include: [
+        {
+          model: Order
+          // include: [OrderProduct],
+        }
+      ]
+    })
     res.send(product)
   } catch (error) {
     next(error)

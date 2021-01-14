@@ -3,8 +3,9 @@ console.log(
   '*********************************************************************************************************************************************'
 )
 const {expect} = require('chai')
-const {db} = require('../index')
-const User = db.model('user')
+
+const db = require('../index')
+// const User = db.model('user')
 
 describe('User model', () => {
   beforeEach(() => {

@@ -1,21 +1,18 @@
 const User = require('./user')
 const Product = require('./product')
 const Order = require('./order')
+const OrderProduct = require('./order_product')
 
-User.belongsToMany(Product, {through: 'Order'})
-Product.belongsToMany(User, {through: 'Order'})
-Order.belongsTo(Product)
-Order.belongsTo(User)
+// User has 1:m with orders
+User.hasMany(Order)
 
-/**
- * We'll export all of our models here, so that any time a module needs a model,
- * we can just require it from 'db/models'
- * for example, we can say: const {User} = require('../db/models')
- * instead of: const User = require('../db/models/user')
- */
+// Product m:m with order, through OrderProduct
+Product.belongsToMany(Order, {through: OrderProduct})
+Order.belongsToMany(Product, {through: OrderProduct})
 
 module.exports = {
   User,
   Product,
-  Order
+  Order,
+  OrderProduct
 }

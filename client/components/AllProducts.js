@@ -13,9 +13,21 @@ class AllProducts extends React.Component {
   }
 
   render() {
-    const {projects} = this.props
+    const {allProducts} = this.props.products
     console.log('All Products firing')
-    return <h1>Welcome to my Carousel Hell</h1>
+    console.log(allProducts[1])
+    return (
+      <div>
+        {allProducts.length
+          ? allProducts.map(product => (
+              <div key={product.id}>
+                <h3>{product.name}</h3>
+                <h5>{product.price}</h5>
+              </div>
+            ))
+          : 'No Products Available!'}
+      </div>
+    )
   }
 }
 

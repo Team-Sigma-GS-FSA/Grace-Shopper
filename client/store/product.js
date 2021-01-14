@@ -23,12 +23,14 @@ const _deleteProduct = product => ({type: DELETE_PRODUCT, product})
 
 //Thunk creators
 export const getProducts = () => async dispatch => {
+
   try {
     const {data} = await axios.get('/api/products')
     dispatch(_getProducts(data))
   } catch (error) {
     console.error(error)
   }
+
 }
 export const getSingleProduct = product => async dispatch => {
   const {data} = await axios.get(`/api/products/${product.id}`)
@@ -62,7 +64,7 @@ export const deleteProduct = product => async dispatch => {
 export default function(state = productState, action) {
   switch (action.type) {
     case GET_PRODUCTS:
-      return {...state, allProducts: action.product}
+      return {...state, allProducts: action.products}
     case GET_SINGLE_PRODUCT:
       return {...state, singleProduct: action.product}
     case CREATE_PRODUCT:

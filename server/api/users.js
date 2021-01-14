@@ -14,9 +14,8 @@ router.get('/', async (req, res, next) => {
 // GET /api/users/:userId "Single User"
 router.get('/:userId', async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.params.userId, {
-      include: [Order],
-    })
+    const user = await User.findByPk(req.params.userId)
+
     if (!user) {
       res.sendStatus(404).end()
     }
@@ -46,8 +45,8 @@ router.post('/', async (req, res, next) => {
         cardType: req.body.cardType,
         cardNumber: req.body.cardNumber,
         cardExpMonth: req.body.cardExpMonth,
-        cardExpYear: req.body.cardExpYear,
-      },
+        cardExpYear: req.body.cardExpYear
+      }
     })
     res.sendStatus(204).json(user)
   } catch (error) {
@@ -58,11 +57,11 @@ router.post('/', async (req, res, next) => {
 // PUT / api/users/:userId "Update User"
 router.put('/:userId', async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.params.userId, {include: [Order]})
+    const user = await User.findByPk(req.params.userId)
     if (!user) {
       res.sendStatus(404).end()
     }
-    await User.update(req.body)
+    await user.update(req.body)
     res.status(202).send(user)
   } catch (error) {
     next(error)
@@ -74,8 +73,8 @@ router.delete('/:userId', async (req, res, next) => {
   try {
     let user = await User.destroy({
       where: {
-        id: req.params.userId,
-      },
+        id: req.params.userId
+      }
     })
     if (!user) {
       res.sendStatus(404).end()

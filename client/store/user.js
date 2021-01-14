@@ -4,6 +4,7 @@ import history from '../history'
 /**
  * ACTION TYPES
  */
+const GET_ALL_USERS = 'GET_ALL_USERS'
 const GET_USER = 'GET_USER'
 const DELETE_USER = 'DELETE_USER'
 const CREATE_USER = 'CREATE_USER'
@@ -12,11 +13,14 @@ const UPDATE_USER = 'UPDATE_USER'
 /**
  * INITIAL STATE
  */
-const defaultUser = {}
+const defaultUser = {
+  allUsers: []
+}
 
 /**
  * ACTION CREATORS
  */
+export const _getAllUsers = users => ({type: GET_ALL_USERS, users})
 const getUser = user => ({type: GET_USER, user})
 export const _deleteUser = user => ({type: DELETE_USER, user})
 export const _createUser = user => ({type: CREATE_USER, user})
@@ -25,6 +29,10 @@ export const _updateUser = user => ({type: UPDATE_USER, user})
 /**
  * THUNK CREATORS
  */
+export const getAllUsers = () => async dispatch => {
+  const {data} = await axios.get('/api/users')
+  dispatch(_getAllUsers(data))
+}
 
 export const createUser = user => async dispatch => {
   const {data} = await axios.post('/api/users', user)
@@ -81,6 +89,8 @@ export default function(state = defaultUser, action) {
   switch (action.type) {
     case GET_USER:
       return action.user
+    case GET_ALL_USERS:
+      return {...state, allUsers: [...allUsers, action.users]}
     case DELETE_USER:
       return defaultUser
     case CREATE_USER:

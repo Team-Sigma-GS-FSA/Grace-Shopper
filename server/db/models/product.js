@@ -1,5 +1,5 @@
-const Sequelize = require('sequelize')
-const db = require('../db')
+const Sequelize = require('sequelize');
+const db = require('../db');
 
 const Product = db.define('product', {
   name: {
@@ -8,7 +8,10 @@ const Product = db.define('product', {
     allowNull: false
   },
   price: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    get() {
+      return Number(this.getDataValue('price'));
+    }
   },
   inventoryQuantity: {
     type: Sequelize.INTEGER,
@@ -26,6 +29,6 @@ const Product = db.define('product', {
     type: Sequelize.ENUM('adult', 'kids', 'luxury', 'misc'),
     defaultValue: 'luxury'
   }
-})
+});
 
-module.exports = Product
+module.exports = Product;

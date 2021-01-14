@@ -23,30 +23,46 @@ const _deleteProduct = product => ({type: DELETE_PRODUCT, product})
 
 //Thunk creators
 export const getProducts = () => async dispatch => {
-  const {data} = await axios.get('/api/products')
-  dispatch(_getProducts(data))
+  try {
+    const {data} = await axios.get('/api/products')
+    dispatch(_getProducts(data))
+  } catch (error) {
+    console.error(error)
+  }
 }
 export const getSingleProduct = product => async dispatch => {
   const {data} = await axios.get(`/api/products/${product.id}`)
   dispatch(_getSingleProduct(data))
 }
 export const createProduct = product => async dispatch => {
-  const {data} = await axios.post('/api/products', product)
-  dispatch(_createProduct(data))
+  try {
+    const {data} = await axios.post('/api/products', product)
+    dispatch(_createProduct(data))
+  } catch (error) {
+    console.error(error)
+  }
 }
 export const updateProduct = product => async dispatch => {
-  const {data} = await axios.put(`/api/products/${product.id}`, product)
-  dispatch(_updateProduct(data))
+  try {
+    const {data} = await axios.put(`/api/products/${product.id}`, product)
+    dispatch(_updateProduct(data))
+  } catch (error) {
+    console.error(error)
+  }
 }
 export const deleteProduct = product => async dispatch => {
-  await axios.delete(`/api/products/${product.id}`)
-  dispatch(_deleteProduct(product))
+  try {
+    await axios.delete(`/api/products/${product.id}`)
+    dispatch(_deleteProduct(product))
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 export default function(state = productState, action) {
   switch (action.type) {
-    case GET_PRODUCT:
-      return {...state, allProducts: action.products}
+    case GET_PRODUCTS:
+      return {...state, allProducts: action.product}
     case GET_SINGLE_PRODUCT:
       return {...state, singleProduct: action.product}
     case CREATE_PRODUCT:

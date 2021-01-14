@@ -2,24 +2,24 @@
 
 const {expect} = require('chai')
 const {db} = require('../index')
-const Product = require('../models')
+const {Product} = require('../models')
 
-describe('Sequelize Model', () => {
+describe('Product Model', () => {
   let product
 
-  before(() => db.sync({force: true}))
-  beforeEach(() => {
-    product = {
-      name: 'LuxMask',
-      price: 99.99,
-      inventoryQuantity: 100,
-      imageUrl:
-        'https://i.picsum.photos/id/995/200/200.jpg?hmac=C_VYf8uWBpaP3GWRI8MP0fMrXh0CR4Y9EgSf7hYhX1Ed',
-      description: 'the must luxurious mask you will ever buy',
-      category: 'luxury'
-    }
-  })
-  afterEach(() => db.sync({force: true}))
+  // before(() => db.sync({force: true}))
+  // beforeEach(() => {
+  //   product = {
+  //     name: 'LuxMask',
+  //     price: 99.99,
+  //     inventoryQuantity: 100,
+  //     imageUrl:
+  //       'https://i.picsum.photos/id/995/200/200.jpg?hmac=C_VYf8uWBpaP3GWRI8MP0fMrXh0CR4Y9EgSf7hYhX1Ed',
+  //     description: 'the must luxurious mask you will ever buy',
+  //     category: 'luxury',
+  //   }
+  // })
+  // afterEach(() => db.sync({force: true}))
 
   it('has fields name, price, inventoryQuantity, imageUrl, description, category', async () => {
     const savedProduct = await Product.create({

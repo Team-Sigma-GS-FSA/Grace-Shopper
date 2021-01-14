@@ -1,9 +1,9 @@
 const {expect} = require('chai')
 const request = require('supertest')
 
-const db = require('../db')
+const {db} = require('../db')
 const app = require('../index')
-const Product = require('../db/models')
+const {Product} = require('../db/models')
 
 const products = {
   name: '7up Diet 355 Ml',

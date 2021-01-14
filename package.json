@@ -95,7 +95,7 @@
     "mocha": "^6.2.3",
     "nodemon": "^1.19.4",
     "npm-merge-driver": "^2.3.6",
-    "prettier": "1.11.1",
+    "prettier": "^2.2.1",
     "react-test-renderer": "^16.14.0",
     "redux-devtools-extension": "^2.13.5",
     "redux-mock-store": "^1.5.4",

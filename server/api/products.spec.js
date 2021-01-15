@@ -1,9 +1,9 @@
-const {expect} = require('chai')
-const request = require('supertest')
+const { expect } = require('chai');
+const request = require('supertest');
 
-const {db} = require('../db')
-const app = require('../index')
-const {Product} = require('../db/models')
+const { db } = require('../db');
+const app = require('../index');
+const { Product } = require('../db/models');
 
 const products = {
   name: '7up Diet 355 Ml',
@@ -14,7 +14,7 @@ const products = {
   description:
     'Etiam faucibus cursus urna. Ut tellus. Nulla ut erat id mauris vulputate elementum. Nullam varius.',
   category: 'luxury'
-}
+};
 
 describe('Products routes', () => {
   beforeEach(() => {
@@ -27,14 +27,12 @@ describe('Products routes', () => {
       description:
         'Etiam faucibus cursus urna. Ut tellus. Nulla ut erat id mauris vulputate elementum. Nullam varius.',
       category: 'luxury'
-    })
-  })
+    });
+  });
 
   it('GET /api/products responds with all products', async () => {
-    const response = await request(app)
-      .get('/api/products')
-      .expect(200)
-    expect(response.body).to.deep.equal(products)
-    expect(Product.findAll.calledOnce).to.be.equal(true)
-  })
-})
+    const response = await request(app).get('/api/products').expect(200);
+    expect(response.body).to.deep.equal(products);
+    expect(Product.findAll.calledOnce).to.be.equal(true);
+  });
+});

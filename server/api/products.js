@@ -1,5 +1,5 @@
-const router = require('express').Router()
-const {Product, Order, OrderProduct} = require('../db/models')
+const router = require('express').Router();
+const { Product, Order, OrderProduct } = require('../db/models');
 
 // GET /api/products "All Products"
 router.get('/', async (req, res, next) => {
@@ -13,13 +13,13 @@ router.get('/', async (req, res, next) => {
         'description',
         'category'
       ],
-      include: [{model: Order}]
-    })
-    res.json(products)
+      include: [{ model: Order }]
+    });
+    res.json(products);
   } catch (error) {
-    next(error)
+    next(error);
   }
-})
+});
 
 // GET /api/products/:productId "Single Product"
 router.get('/:productId', async (req, res, next) => {
@@ -31,12 +31,12 @@ router.get('/:productId', async (req, res, next) => {
           // include: [OrderProduct],
         }
       ]
-    })
-    res.send(product)
+    });
+    res.send(product);
   } catch (error) {
-    next(error)
+    next(error);
   }
-})
+});
 
 // POST /api/products "New Product"
 router.post('/', async (req, res, next) => {
@@ -53,26 +53,26 @@ router.post('/', async (req, res, next) => {
         description: req.body.description,
         category: req.body.category
       }
-    })
-    res.status(202).json(product)
+    });
+    res.status(202).json(product);
   } catch (error) {
-    next(error)
+    next(error);
   }
-})
+});
 
 // PUT /api/products/:productId "Update Product"
 router.put('/:productId', async (req, res, next) => {
   try {
-    const {productId} = req.params
-    let product = await Product.findByPk(productId)
+    const { productId } = req.params;
+    let product = await Product.findByPk(productId);
 
-    product = await product.update(req.body)
+    product = await product.update(req.body);
 
-    res.json(product)
+    res.json(product);
   } catch (error) {
-    next(error)
+    next(error);
   }
-})
+});
 
 // DELETE /api/products/:productId "Delete Product"
 router.delete('/:productId', async (req, res, next) => {
@@ -81,14 +81,14 @@ router.delete('/:productId', async (req, res, next) => {
       where: {
         id: req.params.productId
       }
-    })
+    });
     if (!product) {
-      res.sendStatus(404).end()
+      res.sendStatus(404).end();
     }
-    res.sendStatus(204).end()
+    res.sendStatus(204).end();
   } catch (error) {
-    next(error)
+    next(error);
   }
-})
+});
 
-module.exports = router
+module.exports = router;

@@ -1,81 +1,81 @@
-'use strict'
+'use strict';
 
-const {db, User, Product, Order, OrderProduct} = require('../server/db')
+const { db, User, Product, Order, OrderProduct } = require('../server/db');
 
-const fs = require('fs')
-const path = require('path')
+const fs = require('fs');
+const path = require('path');
 
-const parseCsv = csvData => {
-  const rows = csvData.split('\n')
-  const keys = rows.shift().split(',')
-  const parsedCsv = []
-  rows.forEach(row => {
+const parseCsv = (csvData) => {
+  const rows = csvData.split('\n');
+  const keys = rows.shift().split(',');
+  const parsedCsv = [];
+  rows.forEach((row) => {
     if (row.length > 0) {
-      const values = row.split(',')
-      const newObj = {}
+      const values = row.split(',');
+      const newObj = {};
       keys.forEach((key, i) => {
-        newObj[key] = values[i]
-      })
-      parsedCsv.push(newObj)
+        newObj[key] = values[i];
+      });
+      parsedCsv.push(newObj);
     }
-  })
-  return parsedCsv
-}
+  });
+  return parsedCsv;
+};
 
 const seed = async () => {
   try {
-    await db.sync({force: true})
-    console.log('db synced!')
+    await db.sync({ force: true });
+    console.log('db synced!');
 
     const userSeedCsv = fs.readFileSync(
       path.join(__dirname, '/userSeed.csv'),
       'utf-8'
-    )
-    const userSeedObjs = parseCsv(userSeedCsv)
-    const users = await User.bulkCreate(userSeedObjs)
-    console.log(`seeded ${users.length} users`)
+    );
+    const userSeedObjs = parseCsv(userSeedCsv);
+    const users = await User.bulkCreate(userSeedObjs);
+    console.log(`seeded ${users.length} users`);
 
     const productSeedCsv = fs.readFileSync(
       path.join(__dirname, '/productSeed.csv'),
       'utf-8'
-    )
-    const productSeedObjs = parseCsv(productSeedCsv)
-    const products = await Product.bulkCreate(productSeedObjs)
-    console.log(`seeded ${products.length} products`)
+    );
+    const productSeedObjs = parseCsv(productSeedCsv);
+    const products = await Product.bulkCreate(productSeedObjs);
+    console.log(`seeded ${products.length} products`);
 
     const orderSeedCsv = fs.readFileSync(
       path.join(__dirname, '/orderSeed.csv'),
       'utf-8'
-    )
-    const orderSeedObjs = parseCsv(orderSeedCsv)
-    const orders = await Order.bulkCreate(orderSeedObjs)
-    console.log(`seeded ${orders.length} orders`)
+    );
+    const orderSeedObjs = parseCsv(orderSeedCsv);
+    const orders = await Order.bulkCreate(orderSeedObjs);
+    console.log(`seeded ${orders.length} orders`);
 
     const orderProductSeedCsv = fs.readFileSync(
       path.join(__dirname, '/orderProductSeed.csv'),
       'utf-8'
-    )
-    const orderProductSeedObjs = parseCsv(orderProductSeedCsv)
-    const orderProducts = await OrderProduct.bulkCreate(orderProductSeedObjs)
-    console.log(`seeded ${orderProducts.length} order-product links`)
+    );
+    const orderProductSeedObjs = parseCsv(orderProductSeedCsv);
+    const orderProducts = await OrderProduct.bulkCreate(orderProductSeedObjs);
+    console.log(`seeded ${orderProducts.length} order-product links`);
 
-    console.log(`seeded successfully`)
+    console.log(`seeded successfully`);
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
-}
+};
 
 async function runSeed() {
-  console.log('seeding...')
+  console.log('seeding...');
   try {
-    await seed()
+    await seed();
   } catch (err) {
-    console.error(err)
-    process.exitCode = 1
+    console.error(err);
+    process.exitCode = 1;
   } finally {
-    console.log('closing db connection')
-    await db.close()
-    console.log('db connection closed')
+    console.log('closing db connection');
+    await db.close();
+    console.log('db connection closed');
   }
 }
 
@@ -83,8 +83,8 @@ async function runSeed() {
 // `Async` functions always return a promise, so we can use `catch` to handle
 // any errors that might occur inside of `seed`.
 if (module === require.main) {
-  runSeed()
+  runSeed();
 }
 
 // we export the seed function for testing purposes (see `./seed.spec.js`)
-module.exports = seed
+module.exports = seed;

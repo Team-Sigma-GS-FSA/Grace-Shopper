@@ -1,5 +1,5 @@
-const router = require('express').Router()
-const {User, Order, Product, OrderProduct} = require('../db/')
+const router = require('express').Router();
+const { User, Order, Product, OrderProduct } = require('../db/');
 
 // GET /api/users "All Users"
 router.get('/', async (req, res, next) => {
@@ -11,12 +11,12 @@ router.get('/', async (req, res, next) => {
           include: [Product]
         }
       ]
-    })
-    res.send(user)
+    });
+    res.send(user);
   } catch (error) {
-    next(error)
+    next(error);
   }
-})
+});
 
 // GET /api/users/:userId "Single User"
 router.get('/:userId', async (req, res, next) => {
@@ -25,24 +25,24 @@ router.get('/:userId', async (req, res, next) => {
       include: [
         {
           model: Order,
-          include: [{model: Product, through: OrderProduct}]
+          include: [{ model: Product, through: OrderProduct }]
         }
       ]
-    })
+    });
     if (!user) {
-      res.sendStatus(404).end()
+      res.sendStatus(404).end();
     }
-    res.json(user)
+    res.json(user);
   } catch (error) {
-    next(error)
+    next(error);
   }
-})
+});
 
 // POST /api/users/ "New User"
 router.post('/', async (req, res, next) => {
   try {
     const user = await User.findOrCreate({
-      where: {email: req.body.email},
+      where: { email: req.body.email },
       defaults: {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
@@ -60,26 +60,26 @@ router.post('/', async (req, res, next) => {
         cardExpMonth: req.body.cardExpMonth,
         cardExpYear: req.body.cardExpYear
       }
-    })
-    res.sendStatus(204).json(user)
+    });
+    res.sendStatus(204).json(user);
   } catch (error) {
-    next(error)
+    next(error);
   }
-})
+});
 
 // PUT / api/users/:userId "Update User"
 router.put('/:userId', async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.params.userId)
+    const user = await User.findByPk(req.params.userId);
     if (!user) {
-      res.sendStatus(404).end()
+      res.sendStatus(404).end();
     }
-    await user.update(req.body)
-    res.status(202).send(user)
+    await user.update(req.body);
+    res.status(202).send(user);
   } catch (error) {
-    next(error)
+    next(error);
   }
-})
+});
 
 // DELETE /api/users/:userId "Delete User"
 router.delete('/:userId', async (req, res, next) => {
@@ -88,13 +88,13 @@ router.delete('/:userId', async (req, res, next) => {
       where: {
         id: req.params.userId
       }
-    })
+    });
     if (!user) {
-      res.sendStatus(404).end()
+      res.sendStatus(404).end();
     }
-    res.status(204).end()
+    res.status(204).end();
   } catch (error) {
-    next(error)
+    next(error);
   }
-})
-module.exports = router
+});
+module.exports = router;

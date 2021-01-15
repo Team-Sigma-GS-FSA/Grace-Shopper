@@ -1,10 +1,10 @@
-import React, {Component} from 'react'
-import product from '../store/product'
+import React, { Component } from 'react';
+import product from '../store/product';
 
 export default class Cart extends Component {
   render() {
-    let isLoggedIn = true
-    let isNotEmpty = true
+    let isLoggedIn = true;
+    let isNotEmpty = true;
     return (
       <div>
         <section className="welcome">
@@ -39,7 +39,7 @@ export default class Cart extends Component {
           )}
         </section>
       </div>
-    )
+    );
   }
 }
 

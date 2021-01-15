@@ -22,7 +22,7 @@ const defaultUser = {
  * ACTION CREATORS
  */
 export const _getAllUsers = (users) => ({ type: GET_ALL_USERS, users });
-const _getUser = (user) => ({ type: GET_USER, user });
+export const _getUser = (user) => ({ type: GET_USER, user });
 export const _deleteUser = (user) => ({ type: DELETE_USER, user });
 export const _createUser = (user) => ({ type: CREATE_USER, user });
 export const _updateUser = (user) => ({ type: UPDATE_USER, user });
@@ -57,30 +57,30 @@ export const updateUser = (user) => async (dispatch) => {
   dispatch(_updateUser(data));
 };
 
-export const me = () => async (dispatch) => {
-  try {
-    const res = await axios.get('/auth/me');
-    dispatch(getUser(res.data || defaultUser));
-  } catch (err) {
-    console.error(err);
-  }
-};
+// export const me = () => async (dispatch) => {
+//   try {
+//     const res = await axios.get('/auth/me');
+//     dispatch(getUser(res.data || defaultUser));
+//   } catch (err) {
+//     console.error(err);
+//   }
+// };
 
-export const auth = (email, password, method) => async (dispatch) => {
-  let res;
-  try {
-    res = await axios.post(`/auth/${method}`, { email, password });
-  } catch (authError) {
-    return dispatch(getUser({ error: authError }));
-  }
+// export const auth = (email, password, method) => async (dispatch) => {
+//   let res;
+//   try {
+//     res = await axios.post(`/auth/${method}`, { email, password });
+//   } catch (authError) {
+//     return dispatch(getUser({ error: authError }));
+//   }
 
-  try {
-    dispatch(getUser(res.data));
-    history.push('/home');
-  } catch (dispatchOrHistoryErr) {
-    console.error(dispatchOrHistoryErr);
-  }
-};
+//   try {
+//     dispatch(getUser(res.data));
+//     history.push('/home');
+//   } catch (dispatchOrHistoryErr) {
+//     console.error(dispatchOrHistoryErr);
+//   }
+// };
 
 export const logout = () => async (dispatch) => {
   try {

@@ -14,14 +14,15 @@ const UPDATE_USER = 'UPDATE_USER';
  * INITIAL STATE
  */
 const defaultUser = {
-  allUsers: []
+  allUsers: [],
+  user: {}
 };
 
 /**
  * ACTION CREATORS
  */
 export const _getAllUsers = (users) => ({ type: GET_ALL_USERS, users });
-const getUser = (user) => ({ type: GET_USER, user });
+export const _getUser = (user) => ({ type: GET_USER, user });
 export const _deleteUser = (user) => ({ type: DELETE_USER, user });
 export const _createUser = (user) => ({ type: CREATE_USER, user });
 export const _updateUser = (user) => ({ type: UPDATE_USER, user });
@@ -32,6 +33,15 @@ export const _updateUser = (user) => ({ type: UPDATE_USER, user });
 export const getAllUsers = () => async (dispatch) => {
   const { data } = await axios.get('/api/users');
   dispatch(_getAllUsers(data));
+};
+
+export const getUser = (user) => async (dispatch) => {
+  try {
+    const { data } = await axios.get(`/api/users/${user.id}`);
+    dispatch(_getUser(data));
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const createUser = (user) => async (dispatch) => {
@@ -47,30 +57,30 @@ export const updateUser = (user) => async (dispatch) => {
   dispatch(_updateUser(data));
 };
 
-export const me = () => async (dispatch) => {
-  try {
-    const res = await axios.get('/auth/me');
-    dispatch(getUser(res.data || defaultUser));
-  } catch (err) {
-    console.error(err);
-  }
-};
+// export const me = () => async (dispatch) => {
+//   try {
+//     const res = await axios.get('/auth/me');
+//     dispatch(getUser(res.data || defaultUser));
+//   } catch (err) {
+//     console.error(err);
+//   }
+// };
 
-export const auth = (email, password, method) => async (dispatch) => {
-  let res;
-  try {
-    res = await axios.post(`/auth/${method}`, { email, password });
-  } catch (authError) {
-    return dispatch(getUser({ error: authError }));
-  }
+// export const auth = (email, password, method) => async (dispatch) => {
+//   let res;
+//   try {
+//     res = await axios.post(`/auth/${method}`, { email, password });
+//   } catch (authError) {
+//     return dispatch(getUser({ error: authError }));
+//   }
 
-  try {
-    dispatch(getUser(res.data));
-    history.push('/home');
-  } catch (dispatchOrHistoryErr) {
-    console.error(dispatchOrHistoryErr);
-  }
-};
+//   try {
+//     dispatch(getUser(res.data));
+//     history.push('/home');
+//   } catch (dispatchOrHistoryErr) {
+//     console.error(dispatchOrHistoryErr);
+//   }
+// };
 
 export const logout = () => async (dispatch) => {
   try {
@@ -88,15 +98,17 @@ export const logout = () => async (dispatch) => {
 export default function (state = defaultUser, action) {
   switch (action.type) {
     case GET_USER:
-      return action.user;
+      return { ...state, user: action.user };
     case GET_ALL_USERS:
       return { ...state, allUsers: [...allUsers, action.users] };
     case DELETE_USER:
-      return defaultUser;
+      return state.allUsers.filter((user) => user.id !== action.user.id);
     case CREATE_USER:
-      return defaultUser;
+      return { ...state, allUsers: [...allUsers, action.user] };
     case UPDATE_USER:
-      return action.user;
+      return state.allUsers.map((user) =>
+        user.id === action.user.id ? action.user : user
+      );
     default:
       return state;
   }

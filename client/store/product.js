@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { _deleteUser } from './user';
 
 //action types
 
@@ -30,8 +29,8 @@ export const getProducts = () => async (dispatch) => {
     console.error(error);
   }
 };
-export const getSingleProduct = (product) => async (dispatch) => {
-  const { data } = await axios.get(`/api/products/${product.id}`);
+export const getSingleProduct = (id) => async (dispatch) => {
+  const { data } = await axios.get(`/api/products/${id}`);
   dispatch(_getSingleProduct(data));
 };
 export const createProduct = (product) => async (dispatch) => {

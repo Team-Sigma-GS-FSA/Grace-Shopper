@@ -1,4 +1,3 @@
-
 # Updates to Boilermaker
 
 ## Tuesday, April 9th, 2019
@@ -62,4 +61,3 @@
 - react-dom update to 16.8.6 from 16.4.2
 
 ## Thursday, April 11th, 2019
-

@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-const NewUser = props => {
-  const {handleChange, handleSubmit, name, fuelType, errors} = props
+const NewUser = (props) => {
+  const { handleChange, handleSubmit, name, fuelType, errors } = props;
   return (
     <div className="wrapper">
       {props.editClicked ? (
@@ -66,7 +66,7 @@ const NewUser = props => {
         </div>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default NewUser
+export default NewUser;

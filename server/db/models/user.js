@@ -36,6 +36,12 @@ const User = db.define('user', {
       return () => this.getDataValue('salt');
     }
   },
+<<<<<<< HEAD
+=======
+  googleId: {
+    type: Sequelize.STRING
+  },
+>>>>>>> df1ccc501cd593ca1a2c5c1c8127d0d93d0ee4fd
   street: { type: Sequelize.STRING },
   city: { type: Sequelize.STRING },
   state: { type: Sequelize.CHAR(2) },
@@ -105,10 +111,17 @@ User.encryptPassword = function (plainText, salt) {
  * hooks
  */
 const setSaltAndPassword = (user) => {
+<<<<<<< HEAD
   if (user.changed('password')) {
     user.salt = User.generateSalt();
     user.password = User.encryptPassword(user.password(), user.salt());
   }
+=======
+  // if (user.changed('password')) {
+  //   user.salt = User.generateSalt()
+  //   user.password = User.encryptPassword(user.password(), user.salt())
+  // }
+>>>>>>> df1ccc501cd593ca1a2c5c1c8127d0d93d0ee4fd
 };
 
 User.beforeCreate(setSaltAndPassword);

@@ -9,6 +9,7 @@ const GET_USER = 'GET_USER';
 const DELETE_USER = 'DELETE_USER';
 const CREATE_USER = 'CREATE_USER';
 const UPDATE_USER = 'UPDATE_USER';
+const REMOVE_USER = 'REMOVE_USER';
 
 /**
  * INITIAL STATE
@@ -26,6 +27,7 @@ export const _getUser = (user) => ({ type: GET_USER, user });
 export const _deleteUser = (user) => ({ type: DELETE_USER, user });
 export const _createUser = (user) => ({ type: CREATE_USER, user });
 export const _updateUser = (user) => ({ type: UPDATE_USER, user });
+export const _removeUser = () => ({ type: REMOVE_USER });
 
 /**
  * THUNK CREATORS
@@ -85,7 +87,7 @@ export const auth = (email, password, method) => async (dispatch) => {
 export const logout = () => async (dispatch) => {
   try {
     await axios.post('/auth/logout');
-    dispatch(deleteUser());
+    dispatch(_removeUser());
     history.push('/login');
   } catch (err) {
     console.error(err);
@@ -109,6 +111,8 @@ export default function (state = defaultUser, action) {
       return state.allUsers.map((user) =>
         user.id === action.user.id ? action.user : user
       );
+    case REMOVE_USER:
+      return { ...state, user: {} };
     default:
       return state;
   }

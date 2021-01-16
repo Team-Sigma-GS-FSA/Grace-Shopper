@@ -4,11 +4,11 @@ import { withRouter, Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
   Login,
-  Signup,
   UserHome,
   Cart,
   AllProducts,
-  SingleProduct
+  SingleProduct,
+  UserSignUp
 } from './components';
 import { me } from './store';
 
@@ -22,12 +22,14 @@ class Routes extends Component {
 
   render() {
     const { isLoggedIn } = this.props;
+    console.log(UserSignUp);
 
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
+        {/* <Route path="/signup" component={UserSignUp} /> */}
+        <Route path="/signup" component={UserSignUp} />
         <Route exact path="/products" component={AllProducts} />
         <Route path="/products/:id" component={SingleProduct} />
         <Route path="/cart" component={Cart} />

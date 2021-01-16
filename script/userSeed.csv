@@ -1,4 +1,6 @@
 firstName,lastName,type,email,password,salt,googleId,street,city,state,postalCode,country,cardType,cardNumber,cardExpMonth,cardExpYear
+Cody,Pug,consumer,cody@email.com,Cody, ,codypug,123 Main St,Wilkesburg,IA,13231,United States,visa,1234567891023456,08,22
+Admin,Pug,admin,admin@email.com,Admin, ,codyAdminPug,123 Main St,Wilkesburg,IA,13231,United States,visa,1234567891023456,08,22
 Orrin,Broxton,consumer,obroxtonx@phoca.cz,Orrin, ,obroxtonx,952 Pepper Wood Trail,Washington,DC,20430,United States,mastercard,3564865171031253,01,21
 Lindsay,Wareing,consumer,lwareing12@smh.com.au,Lindsay, ,lwareing12,00546 Harper Lane,New York City,NY,10275,United States,mastercard,3555253323478550,01,21
 Ximenez,Rohlfing,consumer,xrohlfing14@vinaora.com,Ximenez, ,xrohlfing14,8 Arizona Pass,El Paso,TX,79999,United States,mastercard,5100175047325582,01,21

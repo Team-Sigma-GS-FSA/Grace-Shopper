@@ -12,6 +12,19 @@ describe.only('Product Model', () => {
   describe('data validation', () => {
     let savedProduct;
 
+    let testCategory = function (carouselCategory) {
+      if (
+        carouselCategory === 'adult' ||
+        carouselCategory === 'kids' ||
+        carouselCategory === 'luxury' ||
+        carouselCategory === 'misc'
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    };
+
     beforeEach(async () => {
       savedProduct = await Product.create({
         name: 'LuxMask',
@@ -34,34 +47,38 @@ describe.only('Product Model', () => {
       );
       expect(savedProduct.category).to.equal('luxury');
     });
+
+    it('returns true if name is type string', () => {
+      expect(typeof savedProduct.name).to.equal('string');
+    });
+
+    it('returns true if name is not null', () => {
+      expect(savedProduct.name).to.not.equal(null);
+    });
+
+    it('returns true if price is type number', () => {
+      expect(typeof savedProduct.price).to.equal('number');
+    });
+
+    it('returns true if inventoryQuantity is of type number and greater than 0', () => {
+      expect(typeof savedProduct.inventoryQuantity).to.equal('number');
+      expect(savedProduct.inventoryQuantity).to.be.gt(0);
+    });
+
+    it('returns true if imageUrl is type string', () => {
+      expect(typeof savedProduct.imageUrl).to.equal('string');
+    });
+
+    it('returns true if description is type string', () => {
+      expect(typeof savedProduct.description).to.equal('string');
+    });
+
+    it('returns true if category is type string', () => {
+      expect(typeof savedProduct.category).to.equal('string');
+    });
+
+    it('returns true if category is equal to adult, kids, luxury, misc', () => {
+      expect(testCategory(savedProduct.category)).to.equal(true);
+    });
   });
-
-  it('returns true if name is type string', () => {
-    expect(typeof luxMask.name).to.equal('string');
-  });
-  //         expect(luxMask.name).to.not.equal(null)
-  //       })
-
-  //       it('returns true if price is type number', () => {
-  //         expect(typeof luxMask.price).to.equal('number')
-  //       })
-
-  //       it('returns true if inventoryQuantity is of type number and greater than 0', () => {
-  //         expect(typeof luxMask.inventoryQuantity).to.equal('number')
-  //         expect(luxMask.inventoryQuantity).to.be.gt(5)
-  //       })
-
-  //       it('returns true if imageUrl is type string', () => {
-  //         expect(typeof luxMask.imageUrl).to.equal('string')
-  //       })
-
-  //       it('returns true if description is type string', () => {
-  //         expect(typeof luxMask.description).to.equal('string')
-  //       })
-
-  //       it('returns true if category is type string and to equal luxury', () => {
-  //         expect(typeof luxMask.category).to.equal('string')
-  //         expect(luxMask.category.to.equal('luxury'))
-  //       })
-  // afterEach(() => db.sync({force: true}))
 });

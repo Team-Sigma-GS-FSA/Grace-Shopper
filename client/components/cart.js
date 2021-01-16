@@ -1,17 +1,27 @@
 import React, { Component } from 'react';
-import product from '../store/product';
+import {
+  getOrders,
+  removeSingleCartItem,
+  removeAllCartItems
+} from '../store/order';
 
-export default class Cart extends Component {
+class Cart extends Component {
+  componentDidMount() {
+    const id = this.props.match.params.user.id;
+    if (this.props.user.id) {
+      this.props.getCart(this.props.user.id);
+    }
+  }
+
   render() {
     let isLoggedIn = true;
-    let isNotEmpty = true;
     return (
       <div>
         <section className="welcome">
           <h1>{isLoggedIn ? `Welcome Strongest Avenger` : `Welcome Guest`}</h1>
         </section>
         <section>
-          {isNotEmpty ? (
+          {cart.length ? (
             <div>
               <section className="cart-items">
                 <h1>Items in your cart: </h1>
@@ -46,19 +56,25 @@ export default class Cart extends Component {
 /**
  * CONTAINER
  */
-// const mapState = (state) => {
-//   return {
-//cart: state.cart
-//   }
-// }
+const mapState = (state) => {
+  return {
+    user: state.user.user,
+    cart: state.cart,
+    cartItem: state.cartItem
+  };
+};
 
 /**
  * CONTAINER
  */
-// const mapDispatch = (dispatch) => {
-//   return {
-//getProducts: () => dispatch(getProducts())
-//   }
-// }
+const mapDispatch = (dispatch) => {
+  return {
+    getCart: (id) => dispatch(getCart(id)),
+    updateCart: (cart) => dispatch(updateCart(cart)),
+    removeSingleCartItem: (cartItem) =>
+      dispatch(removeSingleCartItem(cartItem)),
+    removeAllCartItems: (cart) => dispatch(removeAllCartItems(cart))
+  };
+};
 
-// export default connect(mapState, mapDispatch)(Cart)
+export default connect(mapState, mapDispatch)(Cart);

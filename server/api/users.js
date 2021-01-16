@@ -38,6 +38,36 @@ router.get('/:userId', async (req, res, next) => {
   }
 });
 
+// GET /api/users/:userId/cart "Single User's Cart"
+router.get('/:userId/cart', async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.params.userId, {
+      include: [
+        {
+          model: Order,
+          include: [
+            {
+              model: Product,
+              through: {
+                model: OrderProduct,
+                where: {
+                  purchased: false
+                }
+              }
+            }
+          ]
+        }
+      ]
+    });
+    if (!user) {
+      res.sendStatus(404).end();
+    }
+    res.json(user);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // POST /api/users/ "New User"
 router.post('/', async (req, res, next) => {
   try {
@@ -97,4 +127,5 @@ router.delete('/:userId', async (req, res, next) => {
     next(error);
   }
 });
+
 module.exports = router;

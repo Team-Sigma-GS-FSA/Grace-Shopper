@@ -4,7 +4,7 @@ import {
   removeSingleCartItem,
   removeAllCartItems
 } from '../store/order';
-
+import { connect } from 'react-redux';
 class Cart extends Component {
   componentDidMount() {
     const id = this.props.match.params.user.id;

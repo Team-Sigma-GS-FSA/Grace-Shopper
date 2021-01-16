@@ -29,7 +29,7 @@ const UserSignupForm = (props) => {
         <br />
 
         <div>
-          <label htmlFor="firstName">name:</label>
+          <label htmlFor="firstName"> first name:</label>
           <input
             type="text"
             name="firstName"
@@ -38,10 +38,9 @@ const UserSignupForm = (props) => {
             onChange={handleChange}
           />
         </div>
-        <br />
 
         <div>
-          <label htmlFor="lastName">name:</label>
+          <label htmlFor="lastName">last name:</label>
           <input
             type="text"
             name="lastName"
@@ -62,17 +61,23 @@ const UserSignupForm = (props) => {
             onChange={handleChange}
           />
         </div>
-        <br />
 
         <div>
           <label htmlFor="password">password:</label>
-          <input type={hidden ? 'password' : 'text'} value={password} />
+
+          <input
+            type={hidden ? 'password' : 'text'}
+            value={password}
+            placeholder="password must contain a Capital letter and a Number"
+            onChange={handleChange}
+          />
           <button type="button" onClick={toggleShow}>
             Show / Hide
           </button>
           <br />
         </div>
         <br />
+
         <div>
           <label htmlFor="street">street:</label>
           <input
@@ -83,7 +88,6 @@ const UserSignupForm = (props) => {
             onChange={handleChange}
           />
         </div>
-        <br />
 
         <div>
           <label htmlFor="city">city:</label>
@@ -99,7 +103,14 @@ const UserSignupForm = (props) => {
 
         <div>
           <label htmlFor="state">state:</label>
-          <select name="state" value={state} onSelect={handleChange}>
+          <select
+            name="state"
+            value={state}
+            onChange={handleChange}
+
+            // onChange={(e) => this.setState({ state: e.target.value })}
+          >
+            <option value=""></option>
             <option value="AL">Alabama</option>
             <option value="AK">Alaska</option>
             <option value="AZ">Arizona</option>
@@ -153,7 +164,6 @@ const UserSignupForm = (props) => {
             <option value="WY">Wyoming</option>
           </select>
         </div>
-        <br />
 
         <div>
           <label htmlFor="postalCode">zip code:</label>
@@ -171,7 +181,13 @@ const UserSignupForm = (props) => {
 
         <div>
           <label htmlFor="country">country:</label>
-          <select name="country" value={country} onSelect={handleChange}>
+          <select
+            name="country"
+            value={country}
+            onSelect={handleChange}
+            onChange={handleChange}
+          >
+            <option value=""></option>
             <option value="United States">United States of America</option>
             <option value="Afganistan">Afghanistan</option>
             <option value="Albania">Albania</option>
@@ -442,11 +458,10 @@ const UserSignupForm = (props) => {
             onChange={handleChange}
           />
         </div>
-        <br />
 
         <div>
           <label htmlFor="cardType">card type:</label>
-          <select value={cardType}>
+          <select value={cardType} onChange={handleChange}>
             <option value="visa">Visa</option>
             <option value="mastercard">MasterCard</option>
             <option value="AMEX">American Express</option>
@@ -455,7 +470,12 @@ const UserSignupForm = (props) => {
 
         <div>
           <label htmlFor="cardExpMonth">expiration month:</label>
-          <select value={cardExpMonth}>
+          <select
+            value={cardExpMonth}
+            onChange={handleChange}
+            onSelect={handleChange}
+          >
+            <option value=""></option>
             <option value="01">01</option>
             <option value="02">02</option>
             <option value="03">03</option>
@@ -473,7 +493,13 @@ const UserSignupForm = (props) => {
 
         <div>
           <label htmlFor="cardExpYear">expiration year:</label>
-          <select value={cardExpYear}>
+
+          <select
+            value={cardExpYear}
+            onChange={handleChange}
+            onSelect={handleChange}
+          >
+            <option value=""></option>
             <option value="21">2021</option>
             <option value="22">2022</option>
             <option value="23">2023</option>
@@ -486,6 +512,7 @@ const UserSignupForm = (props) => {
         </div>
 
         <br />
+        <button type="submit">Submit User</button>
         {/* <div>
           {errors[0] === undefined ? (
             <div className="back">

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { createUser } from '../store/user';
-import UserSignupForm from './sign-up-form';
+import UserSignupForm from './user-signup-form';
 // const {valNewRobotForm} = require('./formValidation')
 
 const defaultState = {
@@ -27,6 +27,7 @@ class UserSignUp extends Component {
     super();
     this.state = {
       ...defaultState,
+      errorMessage: null,
       redirect: null,
       hidden: true
     };
@@ -39,6 +40,7 @@ class UserSignUp extends Component {
     this.setState({ hidden: !this.state.hidden });
   }
   handleChange(event) {
+    console.log(this.state);
     this.setState({
       [event.target.name]: event.target.value
     });
@@ -52,7 +54,7 @@ class UserSignUp extends Component {
 
   async handleSubmit(event) {
     event.preventDefault();
-
+    console.log('cardType', this.state);
     try {
       await this.props.createUser(this.state);
       this.setState({ defaultState, redirect: '/account' });
@@ -62,16 +64,13 @@ class UserSignUp extends Component {
       });
     }
   }
-  componentDidMount() {
-    console.log('poop');
-  }
 
   render() {
-    const { redirect } = this.state;
+    const { redirect, errorMessage } = this.state;
 
-    // if (errorMessage) {
-    //   return <h2>{errorMessage}</h2>
-    // }
+    if (errorMessage) {
+      return <h2>{errorMessage}</h2>;
+    }
 
     // redirect to all Robots on POST success
     if (redirect) {

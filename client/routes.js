@@ -7,11 +7,10 @@ import {
   UserHome,
   Cart,
   AllProducts,
-  SingleProduct,
-  UserSignUp
+  SingleProduct
 } from './components';
 import { me } from './store';
-
+import UserSignUp from './components/user-signup.js';
 /**
  * COMPONENT
  */

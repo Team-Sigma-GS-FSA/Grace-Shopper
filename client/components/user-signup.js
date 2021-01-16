@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { createUser } from '../store/user';
 import UserSignupForm from './user-signup-form';
-// const {valNewRobotForm} = require('./formValidation')
 
 const defaultState = {
   firstName: '',
@@ -13,13 +12,13 @@ const defaultState = {
   password: '',
   street: '',
   city: '',
-  state: '',
+  state: 'AL',
   postalCode: '',
   country: 'United States',
-  cardType: '',
+  cardType: 'visa',
   cardNumber: '',
-  cardExpMonth: '',
-  cardExpYear: ''
+  cardExpMonth: '01',
+  cardExpYear: '21'
 };
 
 class UserSignUp extends Component {
@@ -37,27 +36,24 @@ class UserSignUp extends Component {
   }
 
   toggleShow() {
-    this.setState({ hidden: !this.state.hidden });
+    const { hidden } = this.state;
+    this.setState({ hidden: !hidden });
   }
   handleChange(event) {
-    console.log(this.state);
+    let name = event.target.name;
+    let value = event.target.value;
     this.setState({
-      [event.target.name]: event.target.value
+      [name]: value
     });
-    // let errorLog = valNewRobotForm(this.state)
-    // if (errorLog === []) {
-    //   return this.setState({errors: []})
-    // } else {
-    //   return this.setState({errors: errorLog})
-    // }
+    console.log('after', this.state);
   }
 
   async handleSubmit(event) {
     event.preventDefault();
-    console.log('cardType', this.state);
+    console.log('state', this.state.state);
     try {
       await this.props.createUser(this.state);
-      this.setState({ defaultState, redirect: '/account' });
+      this.setState({ defaultState, redirect: '/products' });
     } catch (error) {
       this.setState({
         errorMessage: `Please try again. There was a problem creating your account: ${error.message}.`
@@ -68,11 +64,13 @@ class UserSignUp extends Component {
   render() {
     const { redirect, errorMessage } = this.state;
 
-    if (errorMessage) {
-      return <h2>{errorMessage}</h2>;
-    }
+    //let user know if there was an error
 
-    // redirect to all Robots on POST success
+    // if (errorMessage) {
+    //   return <h2>{errorMessage}</h2>;
+    // }
+
+    // redirect to all UserHome on POST success
     if (redirect) {
       return <Redirect to={redirect} />;
     }

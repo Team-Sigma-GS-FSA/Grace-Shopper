@@ -1,6 +1,5 @@
 import React from 'react';
 
-//firstname, lastname, type, email,
 //firstname, lastname, type, email, password, street, city, state, postalCode, country, cardType, cardNumber, cardExpMonth, cardExpYear
 
 const UserSignupForm = (props) => {
@@ -23,6 +22,7 @@ const UserSignupForm = (props) => {
     cardExpYear,
     hidden
   } = props;
+
   return (
     <div className="wrapper">
       <form onSubmit={handleSubmit}>
@@ -35,7 +35,9 @@ const UserSignupForm = (props) => {
             name="firstName"
             placeholder="first name"
             value={firstName}
-            onChange={handleChange}
+            onChange={(e) => {
+              handleChange(e);
+            }}
           />
         </div>
 
@@ -46,7 +48,9 @@ const UserSignupForm = (props) => {
             name="lastName"
             placeholder="last name"
             value={lastName}
-            onChange={handleChange}
+            onChange={(e) => {
+              handleChange(e);
+            }}
           />
         </div>
         <br />
@@ -58,18 +62,22 @@ const UserSignupForm = (props) => {
             name="email"
             placeholder="email"
             value={email}
-            onChange={handleChange}
+            onChange={(e) => {
+              handleChange(e);
+            }}
           />
         </div>
 
         <div>
           <label htmlFor="password">password:</label>
-
           <input
+            name="password"
             type={hidden ? 'password' : 'text'}
             value={password}
             placeholder="password must contain a Capital letter and a Number"
-            onChange={handleChange}
+            onChange={(e) => {
+              handleChange(e);
+            }}
           />
           <button type="button" onClick={toggleShow}>
             Show / Hide
@@ -85,7 +93,9 @@ const UserSignupForm = (props) => {
             type="text"
             placeholder="street"
             value={street}
-            onChange={handleChange}
+            onChange={(e) => {
+              handleChange(e);
+            }}
           />
         </div>
 
@@ -96,19 +106,21 @@ const UserSignupForm = (props) => {
             type="text"
             placeholder="city"
             value={city}
-            onChange={handleChange}
+            onChange={(e) => {
+              handleChange(e);
+            }}
           />
         </div>
         <br />
 
         <div>
-          <label htmlFor="state">state:</label>
+          <label>state:</label>
           <select
             name="state"
             value={state}
-            onChange={handleChange}
-
-            // onChange={(e) => this.setState({ state: e.target.value })}
+            onChange={(e) => {
+              handleChange(e);
+            }}
           >
             <option value=""></option>
             <option value="AL">Alabama</option>
@@ -174,7 +186,9 @@ const UserSignupForm = (props) => {
             // pattern attribute forces {5} numbers
             placeholder="00000"
             value={postalCode}
-            onChange={handleChange}
+            onChange={(e) => {
+              handleChange(e);
+            }}
           />
         </div>
         <br />
@@ -184,8 +198,12 @@ const UserSignupForm = (props) => {
           <select
             name="country"
             value={country}
-            onSelect={handleChange}
-            onChange={handleChange}
+            onSelect={(e) => {
+              handleChange(e);
+            }}
+            onChange={(e) => {
+              handleChange(e);
+            }}
           >
             <option value=""></option>
             <option value="United States">United States of America</option>
@@ -455,13 +473,21 @@ const UserSignupForm = (props) => {
             name="cardNumber"
             placeholder="****************"
             value={cardNumber}
-            onChange={handleChange}
+            onChange={(e) => {
+              handleChange(e);
+            }}
           />
         </div>
 
         <div>
           <label htmlFor="cardType">card type:</label>
-          <select value={cardType} onChange={handleChange}>
+          <select
+            name="cardType"
+            value={cardType}
+            onChange={(e) => {
+              handleChange(e);
+            }}
+          >
             <option value="visa">Visa</option>
             <option value="mastercard">MasterCard</option>
             <option value="AMEX">American Express</option>
@@ -472,8 +498,13 @@ const UserSignupForm = (props) => {
           <label htmlFor="cardExpMonth">expiration month:</label>
           <select
             value={cardExpMonth}
-            onChange={handleChange}
-            onSelect={handleChange}
+            name="cardExpMonth"
+            onChange={(e) => {
+              handleChange(e);
+            }}
+            onSelect={(e) => {
+              handleChange(e);
+            }}
           >
             <option value=""></option>
             <option value="01">01</option>
@@ -496,8 +527,13 @@ const UserSignupForm = (props) => {
 
           <select
             value={cardExpYear}
-            onChange={handleChange}
-            onSelect={handleChange}
+            name="cardExpYear"
+            onChange={(e) => {
+              handleChange(e);
+            }}
+            onSelect={(e) => {
+              handleChange(e);
+            }}
           >
             <option value=""></option>
             <option value="21">2021</option>

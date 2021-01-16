@@ -11,11 +11,9 @@ const db = new Sequelize(
     operatorAliases: false,
     dialect: 'postgres',
     protocol: 'postgres',
-    ssl: true,
-    dialectOptions: {
-      ssl: process.env.DATABASE_URL && {
-        require: true
-      }
+    ssl: {
+      require: true,
+      rejectUnauthorized: false
     }
   }
 );

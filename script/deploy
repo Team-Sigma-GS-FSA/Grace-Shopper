@@ -24,6 +24,7 @@ function cleanup_at_exit {
   # return to your main branch
   git checkout main
 
+
   # remove the deploy branch
   git branch -D deploy
 }
@@ -44,3 +45,4 @@ git commit --allow-empty -m 'Deploying'
 
 # push your local "deploy" branch to the "main" branch on heroku
 git push --force heroku deploy:main
+

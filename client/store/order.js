@@ -9,6 +9,7 @@ const REMOVE_SINGLE_CART_ITEM = 'REMOVE_SINGLE_CART_ITEM';
 const REMOVE_ALL_CART_ITEMS = 'REMOVE_ALL_CART_ITEMS';
 
 const cartState = {
+  user: {},
   cart: [],
   cartItem: {}
 };
@@ -26,8 +27,10 @@ const _removeAllCartItems = () => ({ type: REMOVE_ALL_CART_ITEMS });
 //Thunk creators
 export const getCart = (user) => async (dispatch) => {
   try {
+    console.log('user from thunk ----->', user);
     const { data } = await axios.get(`/api/users/${user.id}/cart`);
-    console.log(data);
+    console.log('data in thunk---->', data);
+    console.log('hello from thunk');
     dispatch(_getCart(data));
   } catch (error) {
     console.error(error);
@@ -73,7 +76,8 @@ export const removeAllCartItems = (user, cart) => async (dispatch) => {
 export default function (state = cartState, action) {
   switch (action.type) {
     case GET_CART:
-      return { ...state, cart: action.user };
+      console.log('hello from reducer');
+      return { ...state, user: action.user };
     case ADD_TO_CART:
       return { ...state, cart: [...cart, action.cartItem] };
     case UPDATE_CART:

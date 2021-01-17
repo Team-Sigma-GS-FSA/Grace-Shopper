@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
-  getOrders,
+  getCart,
   removeSingleCartItem,
   removeAllCartItems
 } from '../store/order';
 
 class Cart extends Component {
   componentDidMount() {
-    const id = this.props.match.params.user.id;
+    console.log(this.props);
+    console.log('this.props.user', this.props.user);
     if (this.props.user.id) {
       this.props.getCart(this.props.user.id);
     }
@@ -21,8 +23,7 @@ class Cart extends Component {
           <h1>{isLoggedIn ? `Welcome Strongest Avenger` : `Welcome Guest`}</h1>
         </section>
         <section>
-          {cart.length ? (
-            <div>
+          <div>
               <section className="cart-items">
                 <h1>Items in your cart: </h1>
                 <ul>
@@ -44,9 +45,6 @@ class Cart extends Component {
                 <button className="checkoutButton">Checkout</button>
               </section>
             </div>
-          ) : (
-            <h1>Your cart is empty</h1>
-          )}
         </section>
       </div>
     );
@@ -57,6 +55,7 @@ class Cart extends Component {
  * CONTAINER
  */
 const mapState = (state) => {
+  console.log('state.user.user in mapState', state.user.user);
   return {
     user: state.user.user,
     cart: state.cart,

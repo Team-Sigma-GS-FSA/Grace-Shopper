@@ -73,7 +73,7 @@ export const removeAllCartItems = (user, cart) => async (dispatch) => {
 export default function (state = cartState, action) {
   switch (action.type) {
     case GET_CART:
-      return { ...state, cart: action.cart };
+      return { ...state, cart: action.user };
     case ADD_TO_CART:
       return { ...state, cart: [...cart, action.cartItem] };
     case UPDATE_CART:

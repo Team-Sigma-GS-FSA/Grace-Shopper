@@ -106,7 +106,7 @@ export default function (state = defaultUser, action) {
     case DELETE_USER:
       return state.allUsers.filter((user) => user.id !== action.user.id);
     case CREATE_USER:
-      return { ...state, allUsers: [...allUsers, action.user] };
+      return { ...state, user: action.user };
     case UPDATE_USER:
       return state.allUsers.map((user) =>
         user.id === action.user.id ? action.user : user

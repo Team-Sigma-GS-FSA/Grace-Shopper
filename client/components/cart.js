@@ -5,7 +5,7 @@ import {
   removeSingleCartItem,
   removeAllCartItems
 } from '../store/order';
-
+import { connect } from 'react-redux';
 class Cart extends Component {
   componentDidMount() {
     console.log(this.props);

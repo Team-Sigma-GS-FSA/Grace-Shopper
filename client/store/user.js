@@ -62,7 +62,7 @@ export const updateUser = (user) => async (dispatch) => {
 export const me = () => async (dispatch) => {
   try {
     const res = await axios.get('/auth/me');
-    dispatch(getUser(res.data || defaultUser));
+    dispatch(_getUser(res.data || defaultUser.user));
   } catch (err) {
     console.error(err);
   }

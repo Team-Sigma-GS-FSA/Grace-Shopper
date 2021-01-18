@@ -5,19 +5,30 @@ import {
   removeSingleCartItem,
   removeAllCartItems
 } from '../store/order';
+
 class Cart extends Component {
-  componentDidMount() {
-    this.props.getCart(this.props.user);
-    // if (this.props.user) {
-    //   this.props.getCart(this.props.user);
-    //   console.log('in the if statement in cdm', this.props.user);
-    // }
-  }
+  // componentDidMount() {
+  //   const id = this.props.user.id;
+  //   this.props.getCart(id);
+  //   console.log(this.props.getCart(id));
+  //   if (id) {
+  //     this.props.getCart(this.props.user);
+  //     console.log('in the if statement in cdm', this.props.user);
+  //   }
+  // }
 
   render() {
-    console.log('this.props.user in cart render component', this.props.user);
-    console.log('this.props.user.id', this.props.user.id);
     let isLoggedIn = true;
+
+    if (this.props.user.id) {
+      this.props.getCart(this.props.user);
+      console.log('in the if statement in cdm', this.props.user);
+    }
+
+    //const { cart } = this.props;
+    console.log('this.props', this.props);
+    console.log('this.props.user', this.props.user);
+
     return (
       <div>
         <section className="welcome">
@@ -28,6 +39,39 @@ class Cart extends Component {
             <section className="cart-items">
               <h1>Items in your cart: </h1>
               <ul>
+                <li>Rolls Royce Carousel</li>
+                <li>
+                  <img
+                    src="https://intermarkridegroup.com/images/used/carousels/rolls-royce-carousel-full.jpg"
+                    alt="Rolls Royce Carousel"
+                  />
+                </li>
+                <li>Price: $999999.99</li>
+                <li>Quantity: 2</li>
+                <li>Total: 1,100,000</li>
+                <button>Delete</button>
+                <li>Rolls Royce Carousel</li>
+                <li>
+                  <img
+                    src="https://intermarkridegroup.com/images/used/carousels/rolls-royce-carousel-full.jpg"
+                    alt="Rolls Royce Carousel"
+                  />
+                </li>
+                <li>Price: $999999.99</li>
+                <li>Quantity: 2</li>
+                <li>Total: 1,100,000</li>
+                <button>Delete</button>
+                <li>Rolls Royce Carousel</li>
+                <li>
+                  <img
+                    src="https://intermarkridegroup.com/images/used/carousels/rolls-royce-carousel-full.jpg"
+                    alt="Rolls Royce Carousel"
+                  />
+                </li>
+                <li>Price: $999999.99</li>
+                <li>Quantity: 2</li>
+                <li>Total: 1,100,000</li>
+                <button>Delete</button>
                 <li>Rolls Royce Carousel</li>
                 <li>
                   <img
@@ -58,8 +102,8 @@ class Cart extends Component {
 const mapState = (state) => {
   return {
     user: state.user.user,
-    cart: state.cart,
-    cartItem: state.cartItem
+    cart: state.user.cart
+    // cartItem: state.cartItem
   };
 };
 

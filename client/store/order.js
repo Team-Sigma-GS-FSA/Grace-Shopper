@@ -9,12 +9,13 @@ const REMOVE_SINGLE_CART_ITEM = 'REMOVE_SINGLE_CART_ITEM';
 const REMOVE_ALL_CART_ITEMS = 'REMOVE_ALL_CART_ITEMS';
 
 const cartState = {
+  user: {},
   cart: [],
   cartItem: {}
 };
 
 //action creators
-const _getCart = (user) => ({ type: GET_CART, user });
+const _getCart = (user) => ({ type: GET_CART, user: user });
 const _addToCart = (cartItem) => ({ type: ADD_TO_CART, cartItem });
 const _updateCart = (cart) => ({ type: UPDATE_CART, cart });
 const _removeSingleCartItem = (cartItem) => ({
@@ -27,7 +28,6 @@ const _removeAllCartItems = () => ({ type: REMOVE_ALL_CART_ITEMS });
 export const getCart = (user) => async (dispatch) => {
   try {
     const { data } = await axios.get(`/api/users/${user.id}/cart`);
-    console.log(data);
     dispatch(_getCart(data));
   } catch (error) {
     console.error(error);
@@ -73,7 +73,8 @@ export const removeAllCartItems = (user, cart) => async (dispatch) => {
 export default function (state = cartState, action) {
   switch (action.type) {
     case GET_CART:
-      return { ...state, cart: action.cart };
+      console.log('orders in reducer---->', action.user.orders);
+      return { ...state, cart: action.user.orders };
     case ADD_TO_CART:
       return { ...state, cart: [...cart, action.cartItem] };
     case UPDATE_CART:

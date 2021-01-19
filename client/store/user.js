@@ -62,7 +62,9 @@ export const updateUser = (user) => async (dispatch) => {
 export const me = () => async (dispatch) => {
   try {
     const res = await axios.get('/auth/me');
+    console.log('me is about to fire');
     dispatch(_getUser(res.data || defaultUser.user));
+    console.log(res.data);
     console.log('me fired');
   } catch (err) {
     console.error(err);

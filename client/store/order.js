@@ -15,7 +15,7 @@ const cartState = {
 };
 
 //action creators
-const _getCart = (user) => ({ type: GET_CART, user });
+const _getCart = (user) => ({ type: GET_CART, user: user });
 const _addToCart = (cartItem) => ({ type: ADD_TO_CART, cartItem });
 const _updateCart = (cart) => ({ type: UPDATE_CART, cart });
 const _removeSingleCartItem = (cartItem) => ({
@@ -73,14 +73,8 @@ export const removeAllCartItems = (user, cart) => async (dispatch) => {
 export default function (state = cartState, action) {
   switch (action.type) {
     case GET_CART:
-      console.log('action.user from reducer', action.user.orders);
-      let newState = {
-        ...state,
-        cart: [...action.user.orders],
-        user: action.user
-      };
-      console.log('newState in reducer---->', newState);
-      return newState;
+      console.log('orders in reducer---->', action.user.orders);
+      return { ...state, cart: action.user.orders };
     case ADD_TO_CART:
       return { ...state, cart: [...cart, action.cartItem] };
     case UPDATE_CART:

@@ -7,29 +7,30 @@ import {
 } from '../store/order';
 
 class Cart extends Component {
-  // componentDidMount() {
-  //   const id = this.props.user.id;
-  //   this.props.getCart(id);
-  //   console.log(this.props.getCart(id));
-  //   if (id) {
-  //     this.props.getCart(this.props.user);
-  //     console.log('in the if statement in cdm', this.props.user);
-  //   }
-  // }
+  componentDidMount() {
+    // try {
+    //   if (this.props.user.id) {
+    //     this.props.getCart(this.props.user);
+    //     console.log('in the if statement in cdm', this.props.user);
+    //   }
+    // } catch (error) {
+    //   console.error(error);
+    // }
+  }
 
   render() {
     let isLoggedIn = true;
 
-    if (this.props.user.id) {
-      this.props.getCart(this.props.user);
-      console.log('in the if statement in cdm', this.props.user);
-    }
+    // if (this.props.user.id) {
+    //   this.props.getCart(this.props.user);
+    //   console.log('in the if statement in cdm', this.props.user);
+    // }
 
     //const { cart } = this.props;
     console.log('this.props', this.props);
     console.log('this.props.user', this.props.user);
 
-    return (
+    return Object.entries(this.props.user).length ? (
       <div>
         <section className="welcome">
           <h1>{isLoggedIn ? `Welcome Strongest Avenger` : `Welcome Guest`}</h1>
@@ -37,61 +38,87 @@ class Cart extends Component {
         <section>
           <div>
             <section className="cart-items">
-              <h1>Items in your cart: </h1>
-              <ul>
-                <li>Rolls Royce Carousel</li>
+              <h2>Items in your cart: </h2>
+              <ul className="cart-item">
+                <li className="name">Rolls Royce Carousel</li>
                 <li>
                   <img
                     src="https://intermarkridegroup.com/images/used/carousels/rolls-royce-carousel-full.jpg"
                     alt="Rolls Royce Carousel"
                   />
                 </li>
-                <li>Price: $999999.99</li>
-                <li>Quantity: 2</li>
-                <li>Total: 1,100,000</li>
-                <button>Delete</button>
-                <li>Rolls Royce Carousel</li>
+                <li>
+                  <span>Price:</span> $999999.99
+                </li>
+                <li>
+                  <span>Quantity:</span> 2
+                </li>
+                <li>
+                  <span>Total:</span> 1,100,000
+                </li>
+                <button className="button primary">Remove</button>
+                <li className="name">Rolls Royce Carousel</li>
                 <li>
                   <img
                     src="https://intermarkridegroup.com/images/used/carousels/rolls-royce-carousel-full.jpg"
                     alt="Rolls Royce Carousel"
                   />
                 </li>
-                <li>Price: $999999.99</li>
-                <li>Quantity: 2</li>
-                <li>Total: 1,100,000</li>
-                <button>Delete</button>
-                <li>Rolls Royce Carousel</li>
+                <li>
+                  <span>Price:</span> $999999.99
+                </li>
+                <li>
+                  <span>Quantity:</span> 2
+                </li>
+                <li>
+                  <span>Total:</span> 1,100,000
+                </li>
+                <button className="button primary">Remove</button>
+                <li className="name">Rolls Royce Carousel</li>
                 <li>
                   <img
                     src="https://intermarkridegroup.com/images/used/carousels/rolls-royce-carousel-full.jpg"
                     alt="Rolls Royce Carousel"
                   />
                 </li>
-                <li>Price: $999999.99</li>
-                <li>Quantity: 2</li>
-                <li>Total: 1,100,000</li>
-                <button>Delete</button>
-                <li>Rolls Royce Carousel</li>
+                <li>
+                  <span>Price:</span> $999999.99
+                </li>
+                <li>
+                  <span>Quantity:</span> 2
+                </li>
+                <li>
+                  <span>Total:</span> 1,100,000
+                </li>
+                <button className="button primary">Remove</button>
+                <li className="name">Rolls Royce Carousel</li>
                 <li>
                   <img
                     src="https://intermarkridegroup.com/images/used/carousels/rolls-royce-carousel-full.jpg"
                     alt="Rolls Royce Carousel"
                   />
                 </li>
-                <li>Price: $999999.99</li>
-                <li>Quantity: 2</li>
-                <li>Total: 1,100,000</li>
-                <button>Delete</button>
+                <li>
+                  <span>Price:</span> $999999.99
+                </li>
+                <li>
+                  <span>Quantity:</span> 2
+                </li>
+                <li>
+                  <span>Total:</span> 1,100,000
+                </li>
+                <button className="button primary">Remove</button>
               </ul>
               <h3>Cart Total: 1,100,000</h3>
             </section>
             <section className="checkout">
-              <button className="checkoutButton">Checkout</button>
+              <button className="button primary">Checkout</button>
             </section>
           </div>
         </section>
       </div>
+    ) : (
+      <div>Guest Cart</div>
     );
   }
 }
@@ -100,9 +127,10 @@ class Cart extends Component {
  * CONTAINER
  */
 const mapState = (state) => {
+  console.log('state in mapState', state);
   return {
     user: state.user.user,
-    cart: state.user.cart
+    cart: state.order.cart
     // cartItem: state.cartItem
   };
 };

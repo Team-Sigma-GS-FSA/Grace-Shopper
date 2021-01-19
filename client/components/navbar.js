@@ -28,11 +28,13 @@ const Navbar = ({ handleClick, isLoggedIn, userName }) => (
       {isLoggedIn ? (
         <div>
           <Link to="/">{userName}</Link>
+          <Link to="/products">All Products</Link>
           <Link to="/">Cart (0 items)</Link>
         </div>
       ) : (
         <div>
           <Link to="/login">Guest</Link>
+          <Link to="/products">All Products</Link>
           <Link to="/">Cart (0 items)</Link>
         </div>
       )}

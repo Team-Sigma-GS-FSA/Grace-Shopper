@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const { User, Order, Product, OrderProduct } = require('../db/');
 
+//router.use(`/api/users/:userId/cart`, require('./cart'));
+
 // GET /api/users "All Users"
 router.get('/', async (req, res, next) => {
   try {
@@ -17,6 +19,7 @@ router.get('/', async (req, res, next) => {
     next(error);
   }
 });
+
 
 // GET /api/users/cart
 router.get('/cart', async (req, res, next) => {
@@ -35,6 +38,17 @@ router.get('/cart', async (req, res, next) => {
             }
           }
         }
+        // include: [
+        //   {
+        //     model: Order,
+        //     include: [
+        //       {
+        //         model: Product,
+        //         through: { model: OrderProduct, where: { purchased: false } }
+        //       }
+        //     ]
+        //   }
+        // ]
       ]
     });
     res.json(order);
@@ -122,5 +136,72 @@ router.delete('/:userId', async (req, res, next) => {
     next(error);
   }
 });
+
+
+//User - Cart
+
+//GET /api/users/:userId/cart  Cart items for $:id User
+router.get('/:userId/cart', async (req, res, next) => {
+  try {
+    let cart = await User.findByPk(req.params.userId, {
+      include: [
+        {
+          model: Order,
+          include: [
+            {
+              model: Product,
+              through: { model: OrderProduct, where: { purchased: false } }
+            }
+          ]
+        }
+      ]
+    });
+    res.send(cart);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//POST /api/users/:userId/cart Add item to cart
+//take in (itemId, qty) => Product.find() => item
+router.post('/:userId/cart', async (req, res, next) => {
+  try {
+    let item = await Product.findByPk(req.body.id);
+
+    res.send(item);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//DELETE /api/users/:userId/cart DELETE item from cart
+router.delete('/:userId/cart', async (req, res, next) => {
+  try {
+    let item = await Product.destroy({
+      where: {
+        id: req.body.id
+      }
+    });
+    if (!item) {
+      res.sendStatus(404).end();
+    }
+    res.sendStatus(204).end();
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.put('/:userId/cart', async (req, res, next) => {
+  try {
+    let item = await Product.findByPk(req.body.id);
+
+    item = await item.update(req.body);
+
+    res.send(item);
+  } catch (error) {
+    next(error);
+  }
+});
+
 
 module.exports = router;

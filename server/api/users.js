@@ -1,8 +1,9 @@
 const router = require('express').Router();
 const { User, Order, Product, OrderProduct } = require('../db/');
+const adminsOnly = require('../auth/adminsOnly');
 
 // GET /api/users "All Users"
-router.get('/', async (req, res, next) => {
+router.get('/', adminsOnly, async (req, res, next) => {
   try {
     let user = await User.findAll({
       include: [
@@ -20,51 +21,65 @@ router.get('/', async (req, res, next) => {
 
 // GET /api/users/:userId "Single User"
 router.get('/:userId', async (req, res, next) => {
-  try {
-    const user = await User.findByPk(req.params.userId, {
-      include: [
-        {
-          model: Order,
-          include: [{ model: Product, through: OrderProduct }]
-        }
-      ]
-    });
-    if (!user) {
-      res.sendStatus(404).end();
+  if (
+    req.user &&
+    (req.user.type === 'admin' || req.user.id === +req.params.userId)
+  ) {
+    try {
+      const user = await User.findByPk(req.params.userId, {
+        include: [
+          {
+            model: Order,
+            include: [{ model: Product, through: OrderProduct }]
+          }
+        ]
+      });
+      if (!user) {
+        res.sendStatus(404).end();
+      }
+      res.json(user);
+    } catch (error) {
+      next(error);
     }
-    res.json(user);
-  } catch (error) {
-    next(error);
+  } else {
+    res.sendStatus(401);
   }
 });
 
 // GET /api/users/:userId/cart "Single User's Cart"
 router.get('/:userId/cart', async (req, res, next) => {
-  try {
-    const user = await User.findByPk(req.params.userId, {
-      include: [
-        {
-          model: Order,
-          include: [
-            {
-              model: Product,
-              through: {
-                model: OrderProduct,
-                where: {
-                  purchased: false
+  if (
+    req.user &&
+    (req.user.type === 'admin' || req.user.id === +req.params.userId)
+  ) {
+    try {
+      const user = await User.findByPk(req.params.userId, {
+        include: [
+          {
+            model: Order,
+            include: [
+              {
+                model: Product,
+                through: {
+                  model: OrderProduct,
+                  where: {
+                    purchased: false
+                  }
                 }
               }
-            }
-          ]
-        }
-      ]
-    });
-    if (!user) {
-      res.sendStatus(404).end();
+            ]
+          }
+        ]
+      });
+      if (!user) {
+        res.sendStatus(404).end();
+      }
+      res.json(user);
+    } catch (error) {
+      next(error);
     }
-    res.json(user);
-  } catch (error) {
-    next(error);
+  } else {
+    res.sendStatus(401);
   }
 });
 
@@ -99,32 +114,46 @@ router.post('/', async (req, res, next) => {
 
 // PUT / api/users/:userId "Update User"
 router.put('/:userId', async (req, res, next) => {
-  try {
-    const user = await User.findByPk(req.params.userId);
-    if (!user) {
-      res.sendStatus(404).end();
+  if (
+    req.user &&
+    (req.user.type === 'admin' || req.user.id === +req.params.userId)
+  ) {
+    try {
+      const user = await User.findByPk(req.params.userId);
+      if (!user) {
+        res.sendStatus(404).end();
+      }
+      await user.update(req.body);
+      res.status(202).send(user);
+    } catch (error) {
+      next(error);
     }
-    await user.update(req.body);
-    res.status(202).send(user);
-  } catch (error) {
-    next(error);
+  } else {
+    res.sendStatus(401);
   }
 });
 
 // DELETE /api/users/:userId "Delete User"
 router.delete('/:userId', async (req, res, next) => {
-  try {
-    let user = await User.destroy({
-      where: {
-        id: req.params.userId
+  if (
+    req.user &&
+    (req.user.type === 'admin' || req.user.id === +req.params.userId)
+  ) {
+    try {
+      let user = await User.destroy({
+        where: {
+          id: req.params.userId
+        }
+      });
+      if (!user) {
+        res.sendStatus(404).end();
       }
-    });
-    if (!user) {
-      res.sendStatus(404).end();
+      res.status(204).end();
+    } catch (error) {
+      next(error);
     }
-    res.status(204).end();
-  } catch (error) {
-    next(error);
+  } else {
+    res.sendStatus(401);
   }
 });
 

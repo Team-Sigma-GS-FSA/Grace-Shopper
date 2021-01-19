@@ -68,6 +68,25 @@ router.get('/:userId/cart', async (req, res, next) => {
   }
 });
 
+// POST /api/users/:userId/checkout
+router.post('/:userId/checkout', async (req, res, next) => {
+  try {
+    const cart = await Product.findAll({
+      include: {
+        model: Order,
+        where: { userId: +req.params.userId },
+        through: {
+          model: OrderProduct,
+          purchased: false
+        }
+      }
+    });
+    res.send(cart);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // POST /api/users/ "New User"
 router.post('/', async (req, res, next) => {
   try {

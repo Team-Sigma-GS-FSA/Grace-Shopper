@@ -9,6 +9,7 @@ const GET_USER = 'GET_USER';
 const DELETE_USER = 'DELETE_USER';
 const CREATE_USER = 'CREATE_USER';
 const UPDATE_USER = 'UPDATE_USER';
+const REMOVE_USER = 'REMOVE_USER';
 
 /**
  * INITIAL STATE
@@ -26,6 +27,7 @@ export const _getUser = (user) => ({ type: GET_USER, user });
 export const _deleteUser = (user) => ({ type: DELETE_USER, user });
 export const _createUser = (user) => ({ type: CREATE_USER, user });
 export const _updateUser = (user) => ({ type: UPDATE_USER, user });
+export const _removeUser = () => ({ type: REMOVE_USER });
 
 /**
  * THUNK CREATORS
@@ -57,35 +59,35 @@ export const updateUser = (user) => async (dispatch) => {
   dispatch(_updateUser(data));
 };
 
-// export const me = () => async (dispatch) => {
-//   try {
-//     const res = await axios.get('/auth/me');
-//     dispatch(getUser(res.data || defaultUser));
-//   } catch (err) {
-//     console.error(err);
-//   }
-// };
+export const me = () => async (dispatch) => {
+  try {
+    const res = await axios.get('/auth/me');
+    dispatch(_getUser(res.data || defaultUser.user));
+  } catch (err) {
+    console.error(err);
+  }
+};
 
-// export const auth = (email, password, method) => async (dispatch) => {
-//   let res;
-//   try {
-//     res = await axios.post(`/auth/${method}`, { email, password });
-//   } catch (authError) {
-//     return dispatch(getUser({ error: authError }));
-//   }
+export const auth = (email, password, method) => async (dispatch) => {
+  let res;
+  try {
+    res = await axios.post(`/auth/${method}`, { email, password });
+  } catch (authError) {
+    return dispatch(getUser({ error: authError }));
+  }
 
-//   try {
-//     dispatch(getUser(res.data));
-//     history.push('/home');
-//   } catch (dispatchOrHistoryErr) {
-//     console.error(dispatchOrHistoryErr);
-//   }
-// };
+  try {
+    dispatch(getUser(res.data));
+    history.push('/home');
+  } catch (dispatchOrHistoryErr) {
+    console.error(dispatchOrHistoryErr);
+  }
+};
 
 export const logout = () => async (dispatch) => {
   try {
     await axios.post('/auth/logout');
-    dispatch(deleteUser());
+    dispatch(_removeUser());
     history.push('/login');
   } catch (err) {
     console.error(err);
@@ -104,11 +106,13 @@ export default function (state = defaultUser, action) {
     case DELETE_USER:
       return state.allUsers.filter((user) => user.id !== action.user.id);
     case CREATE_USER:
-      return { ...state, allUsers: [...allUsers, action.user] };
+      return { ...state, user: action.user };
     case UPDATE_USER:
       return state.allUsers.map((user) =>
         user.id === action.user.id ? action.user : user
       );
+    case REMOVE_USER:
+      return { ...state, user: {} };
     default:
       return state;
   }

@@ -21,12 +21,12 @@ const User = db.define('user', {
     allowNull: false
   },
   password: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
     // Making `.password` act like a func hides it when serializing to JSON.
     // This is a hack to get around Sequelize's lack of a "private" option.
-    // get() {
-    //   return () => this.getDataValue('password')
-    // }
+    get() {
+      return () => this.getDataValue('password');
+    }
   },
   salt: {
     type: Sequelize.STRING,
@@ -108,10 +108,10 @@ User.encryptPassword = function (plainText, salt) {
  * hooks
  */
 const setSaltAndPassword = (user) => {
-  // if (user.changed('password')) {
-  //   user.salt = User.generateSalt()
-  //   user.password = User.encryptPassword(user.password(), user.salt())
-  // }
+  if (user.changed('password')) {
+    user.salt = User.generateSalt();
+    user.password = User.encryptPassword(user.password(), user.salt());
+  }
 };
 
 User.beforeCreate(setSaltAndPassword);

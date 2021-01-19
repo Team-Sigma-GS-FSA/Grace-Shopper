@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { getSingleProduct } from '../store/product';
+import { addToCart } from '../store/order';
 
 class SingleProduct extends React.Component {
   componentDidMount() {
@@ -33,7 +34,8 @@ const mapState = (state) => ({
 });
 
 const mapDispatch = (dispatch) => ({
-  getSingleProduct: (id) => dispatch(getSingleProduct(id))
+  getSingleProduct: (id) => dispatch(getSingleProduct(id)),
+  addToCart: (cartItem) => dispatch(addToCart(cartItem))
 });
 
 export default connect(mapState, mapDispatch)(SingleProduct);

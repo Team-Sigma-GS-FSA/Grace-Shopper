@@ -24,3 +24,8 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+/* ToDo: add flex container for allProducts, set site-wide background color, 21 */
+.container {
+  background-color: blue;
+}

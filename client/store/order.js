@@ -1,4 +1,5 @@
 import axios from 'axios';
+import cart from '../components/cart';
 
 //action types
 
@@ -9,12 +10,13 @@ const REMOVE_SINGLE_CART_ITEM = 'REMOVE_SINGLE_CART_ITEM';
 const REMOVE_ALL_CART_ITEMS = 'REMOVE_ALL_CART_ITEMS';
 
 const cartState = {
+  user: {},
   cart: [],
   cartItem: {}
 };
 
 //action creators
-const _getCart = (user) => ({ type: GET_CART, user });
+const _getCart = (cart) => ({ type: GET_CART, cart });
 const _addToCart = (cartItem) => ({ type: ADD_TO_CART, cartItem });
 const _updateCart = (cart) => ({ type: UPDATE_CART, cart });
 const _removeSingleCartItem = (cartItem) => ({
@@ -24,10 +26,9 @@ const _removeSingleCartItem = (cartItem) => ({
 const _removeAllCartItems = () => ({ type: REMOVE_ALL_CART_ITEMS });
 
 //Thunk creators
-export const getCart = (user) => async (dispatch) => {
+export const getCart = () => async (dispatch) => {
   try {
-    const { data } = await axios.get(`/api/users/${user.id}/cart`);
-    console.log(data);
+    const { data } = await axios.get(`/api/users/cart`);
     dispatch(_getCart(data));
   } catch (error) {
     console.error(error);
@@ -73,7 +74,25 @@ export const removeAllCartItems = (user, cart) => async (dispatch) => {
 export default function (state = cartState, action) {
   switch (action.type) {
     case GET_CART:
-      return { ...state, cart: action.cart };
+      let userCart = [];
+
+      for (let i = 0; i < action.cart.length; i++) {
+        if (action.cart[i].products.length !== undefined) {
+          for (let m = 0; m < action.cart[i].products.length; m++) {
+            // debugger;
+            userCart.push(action.cart[i].products[m]);
+          }
+        }
+      }
+      return {
+        ...state,
+        cart: [
+          ...userCart
+          // ...action.cart.map((cartItem) => {
+
+          // })
+        ]
+      };
     case ADD_TO_CART:
       return { ...state, cart: [...cart, action.cartItem] };
     case UPDATE_CART:

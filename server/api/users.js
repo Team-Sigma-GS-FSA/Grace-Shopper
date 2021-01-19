@@ -19,15 +19,24 @@ router.get('/', async (req, res, next) => {
     next(error);
   }
 });
-// /api/users/user${ID}/cart
-// GET /api/users/:userId "Single User"
-router.get('/:userId', async (req, res, next) => {
+
+
+// GET /api/users/cart
+router.get('/cart', async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.params.userId, {
+    const order = await Order.findAll({
+      where: {
+        userId: req.user.id
+      },
       include: [
         {
-          model: Order,
-          include: [{ model: Product, through: OrderProduct }]
+          model: Product,
+          through: {
+            model: OrderProduct,
+            where: {
+              purchased: false
+            }
+          }
         }
         // include: [
         //   {
@@ -42,33 +51,20 @@ router.get('/:userId', async (req, res, next) => {
         // ]
       ]
     });
-    if (!user) {
-      res.sendStatus(404).end();
-    }
-    res.json(user);
+    res.json(order);
   } catch (error) {
     next(error);
   }
 });
 
-// GET /api/users/:userId/cart "Single User's Cart"
-router.get('/:userId/cart', async (req, res, next) => {
+// GET /api/users/:userId "Single User"
+router.get('/:userId', async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.userId, {
       include: [
         {
           model: Order,
-          include: [
-            {
-              model: Product,
-              through: {
-                model: OrderProduct,
-                where: {
-                  purchased: false
-                }
-              }
-            }
-          ]
+          include: [{ model: Product, through: OrderProduct }]
         }
       ]
     });

@@ -13,10 +13,16 @@ class SingleProduct extends React.Component {
     const { singleProduct } = this.props.product;
 
     return (
-      <div>
-        <h3>{singleProduct.name}</h3>
-        <img src={singleProduct.imageUrl} />
-        {singleProduct.price / 100}
+      <div className="container">
+        {singleProduct ? (
+          <div>
+            <h3>{singleProduct.name}</h3>
+            <img src={singleProduct.imageUrl} />
+            {singleProduct.price / 100}
+          </div>
+        ) : (
+          <h1>No Item Found!</h1>
+        )}
       </div>
     );
   }

@@ -81,7 +81,13 @@ router.post('/:userId/checkout', async (req, res, next) => {
         }
       }
     });
-    res.send(cart);
+    await cart.forEach((product) => {
+      product.orders.forEach(async (order) => {
+        await order.order_product.update({ purchased: true });
+      });
+    });
+    const orderNumber = cart[0].orders[0].id;
+    res.send(orderNumber);
   } catch (error) {
     next(error);
   }

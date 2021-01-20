@@ -8,11 +8,13 @@ const ADD_TO_CART = 'ADD_TO_CART';
 const UPDATE_CART = 'UPDATE_CART';
 const REMOVE_SINGLE_CART_ITEM = 'REMOVE_SINGLE_CART_ITEM';
 const REMOVE_ALL_CART_ITEMS = 'REMOVE_ALL_CART_ITEMS';
+const SET_ORDER_ID = 'SET_ORDER_ID';
 
 const cartState = {
   user: {},
   cart: [],
-  cartItem: {}
+  cartItem: {},
+  orderId: 0
 };
 
 //action creators
@@ -24,6 +26,7 @@ const _removeSingleCartItem = (cartItem) => ({
   cartItem
 });
 const _removeAllCartItems = () => ({ type: REMOVE_ALL_CART_ITEMS });
+const _setOrderId = (orderId) => ({ type: SET_ORDER_ID, orderId });
 
 //Thunk creators
 export const getCart = () => async (dispatch) => {
@@ -71,10 +74,11 @@ export const removeAllCartItems = (user, cart) => async (dispatch) => {
   }
 };
 
-export const checkout = (user) => async (dispatch) => {
+export const checkout = () => async (dispatch) => {
   try {
-    const orderId = await axios.post(`/api/users/${user.id}/checkout`);
+    const { data } = await axios.post(`/api/users/checkout`);
     dispatch(_removeAllCartItems());
+    dispatch(_setOrderId(+data));
   } catch (error) {
     console.error(error);
   }
@@ -120,7 +124,9 @@ export default function (state = cartState, action) {
       };
     case REMOVE_ALL_CART_ITEMS:
       return { ...state, cart: [] };
+    case SET_ORDER_ID:
+      return { ...state, orderId: action.orderId };
     default:
-      return cartState;
+      return state;
   }
 }

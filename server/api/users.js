@@ -46,6 +46,7 @@ router.post('/checkout', async (req, res, next) => {
           await order.order_product.update({ purchased: true });
         });
       });
+      console.log(cart[0].orders[0].id);
       const orderNumber = cart[0].orders[0].id;
       res.send('' + orderNumber);
     } else {

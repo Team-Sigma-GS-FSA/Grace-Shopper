@@ -28,7 +28,11 @@ class Cart extends Component {
       <div>
         {}
         <section className="welcome">
-          <h1>{isLoggedIn ? `Welcome Strongest Avenger` : `Welcome Guest`}</h1>
+          <h1>
+            {isLoggedIn
+              ? `Welcome ${this.props.user.firstName}`
+              : `Welcome Guest`}
+          </h1>
         </section>
         <section>
           <div>

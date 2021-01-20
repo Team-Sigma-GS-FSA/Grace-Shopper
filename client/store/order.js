@@ -74,24 +74,10 @@ export const removeAllCartItems = (user, cart) => async (dispatch) => {
 export default function (state = cartState, action) {
   switch (action.type) {
     case GET_CART:
-      let userCart = [];
-
-      for (let i = 0; i < action.cart.length; i++) {
-        if (action.cart[i].products.length !== undefined) {
-          for (let m = 0; m < action.cart[i].products.length; m++) {
-            // debugger;
-            userCart.push(action.cart[i].products[m]);
-          }
-        }
-      }
+      console.log('hey', [...action.cart]);
       return {
         ...state,
-        cart: [
-          ...userCart
-          // ...action.cart.map((cartItem) => {
-
-          // })
-        ]
+        cart: [...action.cart]
       };
     case ADD_TO_CART:
       return { ...state, cart: [...cart, action.cartItem] };

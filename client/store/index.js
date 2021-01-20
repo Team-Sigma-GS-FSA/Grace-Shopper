@@ -11,9 +11,12 @@ const reducer = combineReducers({
   products,
   order
 });
-const middleware = composeWithDevTools(
-  applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
-);
+const middleware =
+  process.env.NODE_ENV === 'development'
+    ? composeWithDevTools(
+        applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
+      )
+    : applyMiddleware(thunkMiddleware);
 const store = createStore(reducer, middleware);
 
 export default store;

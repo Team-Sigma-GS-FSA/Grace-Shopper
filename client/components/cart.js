@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import {
   getCart,
   removeSingleCartItem,
-  removeAllCartItems
+  removeAllCartItems,
+  checkout
 } from '../store/order';
 
 class Cart extends Component {
@@ -67,7 +68,16 @@ class Cart extends Component {
               <h3>Cart Total: 1,100,000</h3>
             </section>
             <section className="checkout">
-              <button className="button primary">Checkout</button>
+              <button
+                className="checkoutButton"
+                type="button"
+                onClick={() => {
+                  this.props.checkout(this.props.user);
+                  window.alert('Order submitted!');
+                }}
+              >
+                Checkout
+              </button>
             </section>
           </div>
         </section>
@@ -96,7 +106,8 @@ const mapDispatch = (dispatch) => {
     updateCart: (cart) => dispatch(updateCart(cart)),
     removeSingleCartItem: (cartItem) =>
       dispatch(removeSingleCartItem(cartItem)),
-    removeAllCartItems: (cart) => dispatch(removeAllCartItems(cart))
+    removeAllCartItems: (cart) => dispatch(removeAllCartItems(cart)),
+    checkout: (id) => dispatch(checkout(id))
   };
 };
 

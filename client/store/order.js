@@ -71,6 +71,15 @@ export const removeAllCartItems = (user, cart) => async (dispatch) => {
   }
 };
 
+export const checkout = (user) => async (dispatch) => {
+  try {
+    const orderId = await axios.post(`/api/users/${user.id}/checkout`);
+    dispatch(_removeAllCartItems());
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export default function (state = cartState, action) {
   switch (action.type) {
     case GET_CART:

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import cart from '../components/cart';
+// import cart from '../components/cart';
 
 //action types
 
@@ -79,19 +79,13 @@ export default function (state = cartState, action) {
       for (let i = 0; i < action.cart.length; i++) {
         if (action.cart[i].products.length !== undefined) {
           for (let m = 0; m < action.cart[i].products.length; m++) {
-            // debugger;
             userCart.push(action.cart[i].products[m]);
           }
         }
       }
       return {
         ...state,
-        cart: [
-          ...userCart
-          // ...action.cart.map((cartItem) => {
-
-          // })
-        ]
+        cart: [...userCart]
       };
     case ADD_TO_CART:
       return { ...state, cart: [...cart, action.cartItem] };

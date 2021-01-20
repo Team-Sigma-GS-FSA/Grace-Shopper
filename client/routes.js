@@ -10,6 +10,8 @@ import {
   SingleProduct
 } from './components';
 import { me } from './store';
+
+import ProductMaker from './components/product-create';
 import UserSignUp from './components/user-signup.js';
 /**
  * COMPONENT
@@ -32,6 +34,7 @@ class Routes extends Component {
         <Route exact path="/products" component={AllProducts} />
         <Route path="/products/:id" component={SingleProduct} />
         <Route path="/cart" component={Cart} />
+        <Route path="/admin" component={ProductMaker} />
 
         {isLoggedIn && (
           <Switch>

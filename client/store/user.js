@@ -63,6 +63,7 @@ export const me = () => async (dispatch) => {
   try {
     const res = await axios.get('/auth/me');
     dispatch(_getUser(res.data || defaultUser.user));
+    console.log('me fired');
   } catch (err) {
     console.error(err);
   }

@@ -29,13 +29,13 @@ const Navbar = ({ handleClick, isLoggedIn, userName, cartSize }) => (
         <div>
           <Link to="/">{userName}</Link>
           <Link to="/products">All Products</Link>
-          <Link to="/">Cart ({cartSize} items)</Link>
+          <Link to="/cart">Cart ({cartSize} items)</Link>
         </div>
       ) : (
         <div>
           <Link to="/login">Guest</Link>
           <Link to="/products">All Products</Link>
-          <Link to="/">Cart ({cartSize} items)</Link>
+          <Link to="/cart">Cart ({cartSize} items)</Link>
         </div>
       )}
     </nav>

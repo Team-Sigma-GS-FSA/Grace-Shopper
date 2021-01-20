@@ -22,6 +22,56 @@ router.get('/', adminsOnly, async (req, res, next) => {
   }
 });
 
+// POST /api/users/checkout
+router.post('/checkout', async (req, res, next) => {
+  try {
+    // Different behaviors if the person is a guest or logged in
+    if (req.user) {
+      const userId = req.user.id;
+
+      const cart = await Product.findAll({
+        include: {
+          model: Order,
+          where: { userId: userId },
+          through: {
+            model: OrderProduct,
+            where: {
+              purchased: false
+            }
+          }
+        }
+      });
+      await cart.forEach((product) => {
+        product.orders.forEach(async (order) => {
+          await order.order_product.update({ purchased: true });
+        });
+      });
+      console.log(cart[0].orders[0].id);
+      const orderNumber = cart[0].orders[0].id;
+      res.send('' + orderNumber);
+    } else {
+      // Create a new guest user in database
+      const guestNum = (await User.findAll()).length + 1;
+      const guestUser = await User.create({
+        firstName: `Guest ${guestNum}`,
+        lastName: `Last ${guestNum}`,
+        type: 'consumer',
+        email: `guest${guestNum}@email.com`,
+        cardType: 'visa',
+        cardExpMonth: '01',
+        cardExpYear: '21'
+      });
+      // Create a new order in the database
+      // TODO: Add products to it, using req.body
+      await guestUser.createOrder({});
+      const guestOrder = (await guestUser.getOrders())[0];
+      res.send('' + guestOrder.id);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
 // GET /api/users/cart
 router.get('/cart', async (req, res, next) => {
   try {

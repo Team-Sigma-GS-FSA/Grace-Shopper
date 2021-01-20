@@ -35,7 +35,9 @@ router.post('/checkout', async (req, res, next) => {
           where: { userId: userId },
           through: {
             model: OrderProduct,
-            purchased: false
+            where: {
+              purchased: false
+            }
           }
         }
       });

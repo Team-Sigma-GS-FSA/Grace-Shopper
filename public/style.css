@@ -1,5 +1,6 @@
 body {
   font-family: sans-serif;
+  background-image: url('./bg.png');
 }
 
 a {
@@ -23,4 +24,182 @@ nav a {
 form div {
   margin: 1em;
   display: inline-block;
+}
+
+.header-text {
+  font-size: 2rem;
+  color: black;
+  font-weight: bold;
+}
+
+.content {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.main {
+  flex: 4 70%;
+}
+
+.sidebar {
+  flex: 1 30%;
+}
+
+/* products */
+.products {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+.products li {
+  flex: 1 1 9rem;
+  height: 30rem;
+  padding: 0.5rem;
+  margin: 5rem 1rem;
+}
+
+.product {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.product img {
+  width: 20rem;
+  height: 20rem;
+  border-radius: 0.25rem;
+  box-shadow: 2px 2px 5px black;
+}
+
+.product img:hover {
+  box-shadow: 2px 2px 15px #f0c040;
+  transition: box-shadow 300ms linear;
+}
+
+.product h3 {
+  color: black;
+  font-size: 1.5rem;
+}
+
+.product h3:hover {
+  text-shadow: 2px 2px 1px #f0c040;
+}
+
+.product-price h5 {
+  font-size: 1.35rem;
+  margin: 0;
+}
+
+.button {
+  padding: 0.5rem;
+  margin: 1rem 0 4rem 0;
+  border: 0.1 #c0c0c0 solid;
+  background-color: #f0f0f0;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.button:hover {
+  border: 0.1rem black solid;
+}
+
+.button.primary {
+  background-color: #f0c040;
+}
+
+.button.primary:hover {
+  background-color: #ffd700;
+}
+
+/* Cart */
+.welcome h1 {
+  font-size: 1.75rem;
+}
+
+.cart-item {
+  margin-bottom: 3rem;
+}
+
+.cart-items h2 {
+  font-size: 1.5rem;
+}
+
+.cart-items img {
+  max-width: 10rem;
+  max-height: 10rem;
+  border-radius: 0.25rem;
+  box-shadow: 2px 2px 5px black;
+}
+
+li {
+  list-style-type: none;
+}
+
+.cart-item li,
+.cart-item button {
+  margin-top: 0.75rem;
+}
+
+span {
+  font-weight: bold;
+}
+
+.name {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
+.numberQuantity {
+  font-weight: bold;
+  display: flex;
+}
+
+label {
+  margin-right: 1rem;
+}
+
+/* side-cart */
+.cart {
+  padding: 1rem;
+  margin: 1rem;
+  display: flex;
+}
+
+.cart-header {
+  border-bottom: 0.1rem #c0c0c0 solid;
+}
+
+.cart img {
+  border-radius: 0.25rem;
+  box-shadow: 2px 2px 5px black;
+}
+
+/* Single Product */
+.single-product {
+  margin-left: 1rem;
+}
+
+.single-title {
+  font-size: 2rem;
+}
+
+.single-product img {
+  width: 300px;
+  height: 300px;
+}
+
+.single-price {
+  font-size: 1.35rem;
+}
+
+.description {
+  width: 50%;
 }

@@ -1,10 +1,12 @@
 const router = require('express').Router();
 const { User, Order, Product, OrderProduct } = require('../db/');
+const adminsOnly = require('../auth/adminsOnly');
+const userOrAdminOnly = require('../auth/userOrAdminOnly');
 
 //router.use(`/api/users/:userId/cart`, require('./cart'));
 
 // GET /api/users "All Users"
-router.get('/', async (req, res, next) => {
+router.get('/', adminsOnly, async (req, res, next) => {
   try {
     let user = await User.findAll({
       include: [
@@ -19,7 +21,6 @@ router.get('/', async (req, res, next) => {
     next(error);
   }
 });
-
 
 // GET /api/users/cart
 router.get('/cart', async (req, res, next) => {
@@ -57,8 +58,9 @@ router.get('/cart', async (req, res, next) => {
   }
 });
 
+
 // GET /api/users/:userId "Single User"
-router.get('/:userId', async (req, res, next) => {
+router.get('/:userId', userOrAdminOnly, async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.userId, {
       include: [
@@ -107,7 +109,7 @@ router.post('/', async (req, res, next) => {
 });
 
 // PUT / api/users/:userId "Update User"
-router.put('/:userId', async (req, res, next) => {
+router.put('/:userId', userOrAdminOnly, async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.userId);
     if (!user) {
@@ -121,7 +123,7 @@ router.put('/:userId', async (req, res, next) => {
 });
 
 // DELETE /api/users/:userId "Delete User"
-router.delete('/:userId', async (req, res, next) => {
+router.delete('/:userId', userOrAdminOnly, async (req, res, next) => {
   try {
     let user = await User.destroy({
       where: {

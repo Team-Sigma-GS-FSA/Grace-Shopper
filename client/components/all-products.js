@@ -17,6 +17,13 @@ class AllProducts extends React.Component {
     this.props.getProducts();
   }
 
+  removeFromCart = (product) => {
+    const cartItems = this.state.cartItems.slice();
+    this.setState({
+      cartItems: cartItems.filter((item) => item.id !== product.id)
+    });
+  };
+
   addItemsToCart = (product) => {
     const cartItems = this.state.cartItems.slice();
     let alreadyInCart = false;
@@ -81,7 +88,10 @@ class AllProducts extends React.Component {
               </ul>
             </div>
             <div className="sidebar">
-              <SideCart cartItems={this.state.cartItems} />
+              <SideCart
+                cartItems={this.state.cartItems}
+                removeFromCart={this.removeFromCart}
+              />
             </div>
           </div>
         </main>

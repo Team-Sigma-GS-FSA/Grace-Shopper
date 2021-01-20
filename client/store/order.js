@@ -28,7 +28,8 @@ const _removeAllCartItems = () => ({ type: REMOVE_ALL_CART_ITEMS });
 //Thunk creators
 export const getCart = () => async (dispatch) => {
   try {
-    const { data } = await axios.get(`/api/users/cart`);
+    const { data } = await axios.get(`/api/cart`);
+    console.log(data);
     dispatch(_getCart(data));
   } catch (error) {
     console.error(error);
@@ -74,16 +75,14 @@ export const removeAllCartItems = (user, cart) => async (dispatch) => {
 export default function (state = cartState, action) {
   switch (action.type) {
     case GET_CART:
-      let userCart = [];
-
-      for (let i = 0; i < action.cart.length; i++) {
-        if (action.cart[i].products.length !== undefined) {
-          for (let m = 0; m < action.cart[i].products.length; m++) {
-            // debugger;
-            userCart.push(action.cart[i].products[m]);
-          }
-        }
-      }
+      let userCart = action.cart;
+      // for (let i = 0; i < action.cart.length; i++) {
+      //   if (action.cart[i].products.length !== undefined) {
+      //     for (let m = 0; m < action.cart[i].products.length; m++) {
+      //       userCart.push(action.cart[i].products[m]);
+      //     }
+      //   }
+      // }
       return {
         ...state,
         cart: [

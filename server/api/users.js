@@ -58,7 +58,6 @@ router.get('/cart', async (req, res, next) => {
   }
 });
 
-
 // GET /api/users/:userId "Single User"
 router.get('/:userId', userOrAdminOnly, async (req, res, next) => {
   try {
@@ -139,7 +138,6 @@ router.delete('/:userId', userOrAdminOnly, async (req, res, next) => {
   }
 });
 
-
 //User - Cart
 
 //GET /api/users/:userId/cart  Cart items for $:id User
@@ -204,6 +202,5 @@ router.put('/:userId/cart', async (req, res, next) => {
     next(error);
   }
 });
-
 
 module.exports = router;

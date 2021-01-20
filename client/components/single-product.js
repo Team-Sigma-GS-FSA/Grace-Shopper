@@ -14,7 +14,6 @@ class SingleProduct extends React.Component {
     const { singleProduct } = this.props.product;
 
     return (
-
       <div className="single-product">
         <h3 className="single-title">{singleProduct.name}</h3>
         <img src={singleProduct.imageUrl} />
@@ -28,7 +27,6 @@ class SingleProduct extends React.Component {
         >
           Add To Cart
         </button>
-      
       </div>
     );
   }

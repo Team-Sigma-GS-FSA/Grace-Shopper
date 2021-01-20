@@ -68,13 +68,19 @@ export default function (state = productState, action) {
     case CREATE_PRODUCT:
       return { ...state, allProducts: [...allProducts, action.product] };
     case UPDATE_PRODUCT:
-      return state.allProducts.map((product) =>
-        product.id === action.product.id ? action.product : product
-      );
+      return {
+        ...state,
+        allProducts: state.allProducts.map((product) =>
+          product.id === action.product.id ? action.product : product
+        )
+      };
     case DELETE_PRODUCT:
-      return state.allProducts.filter(
-        (product) => product.id !== action.product.id
-      );
+      return {
+        ...state,
+        allProducts: state.allProducts.filter(
+          (product) => product.id !== action.product.id
+        )
+      };
     default:
       return productState;
   }

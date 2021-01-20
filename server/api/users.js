@@ -48,9 +48,7 @@ router.post('/checkout', async (req, res, next) => {
       res.send('' + orderNumber);
     } else {
       // Create a new guest user in database
-      console.log('*****1');
       const guestNum = (await User.findAll()).length + 1;
-      console.log('*****2');
       const guestUser = await User.create({
         firstName: `Guest ${guestNum}`,
         lastName: `Last ${guestNum}`,
@@ -60,13 +58,10 @@ router.post('/checkout', async (req, res, next) => {
         cardExpMonth: '01',
         cardExpYear: '21'
       });
-      console.log('*****3', guestUser.id);
       // Create a new order in the database
       // TODO: Add products to it, using req.body
       await guestUser.createOrder({});
-      console.log('*****4');
       const guestOrder = (await guestUser.getOrders())[0];
-      console.log('*****5');
       res.send('' + guestOrder.id);
     }
   } catch (error) {

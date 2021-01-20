@@ -1,10 +1,12 @@
 const router = require('express').Router();
 const { User, Order, Product, OrderProduct } = require('../db/');
+const adminsOnly = require('../auth/adminsOnly');
+const userOrAdminOnly = require('../auth/userOrAdminOnly');
 
 //router.use(`/api/users/:userId/cart`, require('./cart'));
 
 // GET /api/users "All Users"
-router.get('/', async (req, res, next) => {
+router.get('/', adminsOnly, async (req, res, next) => {
   try {
     let user = await User.findAll({
       include: [
@@ -20,6 +22,55 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+// POST /api/users/checkout
+router.post('/checkout', async (req, res, next) => {
+  try {
+    // Different behaviors if the person is a guest or logged in
+    if (req.user) {
+      const userId = req.user.id;
+
+      const cart = await Product.findAll({
+        include: {
+          model: Order,
+          where: { userId: userId },
+          through: {
+            model: OrderProduct,
+            where: {
+              purchased: false
+            }
+          }
+        }
+      });
+      await cart.forEach((product) => {
+        product.orders.forEach(async (order) => {
+          await order.order_product.update({ purchased: true });
+        });
+      });
+      console.log(cart[0].orders[0].id);
+      const orderNumber = cart[0].orders[0].id;
+      res.send('' + orderNumber);
+    } else {
+      // Create a new guest user in database
+      const guestNum = (await User.findAll()).length + 1;
+      const guestUser = await User.create({
+        firstName: `Guest ${guestNum}`,
+        lastName: `Last ${guestNum}`,
+        type: 'consumer',
+        email: `guest${guestNum}@email.com`,
+        cardType: 'visa',
+        cardExpMonth: '01',
+        cardExpYear: '21'
+      });
+      // Create a new order in the database
+      // TODO: Add products to it, using req.body
+      await guestUser.createOrder({});
+      const guestOrder = (await guestUser.getOrders())[0];
+      res.send('' + guestOrder.id);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
 
 // GET /api/users/cart
 router.get('/cart', async (req, res, next) => {
@@ -58,7 +109,7 @@ router.get('/cart', async (req, res, next) => {
 });
 
 // GET /api/users/:userId "Single User"
-router.get('/:userId', async (req, res, next) => {
+router.get('/:userId', userOrAdminOnly, async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.userId, {
       include: [
@@ -107,7 +158,7 @@ router.post('/', async (req, res, next) => {
 });
 
 // PUT / api/users/:userId "Update User"
-router.put('/:userId', async (req, res, next) => {
+router.put('/:userId', userOrAdminOnly, async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.userId);
     if (!user) {
@@ -121,7 +172,7 @@ router.put('/:userId', async (req, res, next) => {
 });
 
 // DELETE /api/users/:userId "Delete User"
-router.delete('/:userId', async (req, res, next) => {
+router.delete('/:userId', userOrAdminOnly, async (req, res, next) => {
   try {
     let user = await User.destroy({
       where: {
@@ -136,7 +187,6 @@ router.delete('/:userId', async (req, res, next) => {
     next(error);
   }
 });
-
 
 //User - Cart
 
@@ -202,6 +252,5 @@ router.put('/:userId/cart', async (req, res, next) => {
     next(error);
   }
 });
-
 
 module.exports = router;

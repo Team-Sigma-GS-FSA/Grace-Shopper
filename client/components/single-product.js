@@ -168,6 +168,7 @@ class SingleProduct extends React.Component {
             </button>
           </div>
         )}
+
       </div>
     );
   }

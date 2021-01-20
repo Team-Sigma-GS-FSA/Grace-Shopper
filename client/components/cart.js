@@ -3,32 +3,43 @@ import { connect } from 'react-redux';
 import {
   getCart,
   removeSingleCartItem,
-  removeAllCartItems
+  removeAllCartItems,
+  checkout
 } from '../store/order';
+import { withRouter } from 'react-router-dom';
 
-class Cart extends Component {
-  componentDidMount() {
-    this.props.getCart(this.props.cart);
-    console.log('in the if statement in cdm', this.props);
-  }
+const Cart = withRouter(
+  class extends Component {
+    componentDidMount() {
+      this.props.getCart(this.props.cart);
+      console.log('in the if statement in cdm', this.props);
+    }
 
-  render() {
-    let isLoggedIn = true;
+    render() {
+      let isLoggedIn = true;
 
-    // if (this.props.user.id) {
-    // this.props.getCart(this.props.cart);
-    //   console.log('in the if statement in cdm', this.props.user);
-    // }
+      // if (this.props.user.id) {
+      // this.props.getCart(this.props.cart);
+      //   console.log('in the if statement in cdm', this.props.user);
+      // }
 
-    //const { cart } = this.props;
-    // console.log('this.props', this.props);
-    console.log('this.props.cart in render method', this.props.cart);
+      //const { cart } = this.props;
+      // console.log('this.props', this.props);
+      console.log('this.props.cart in render method', this.props.cart);
 
+      const formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    });
     return (
       <div>
         {}
         <section className="welcome">
-          <h1>{isLoggedIn ? `Welcome Strongest Avenger` : `Welcome Guest`}</h1>
+          <h1>
+            {isLoggedIn
+              ? `Welcome ${this.props.user.firstName}`
+              : `Welcome Guest`}
+          </h1>
         </section>
         <section>
           <div>
@@ -42,7 +53,7 @@ class Cart extends Component {
                       <img src={cartItem.imageUrl} alt={cartItem.name} />
                     </li>
                     <li>
-                      <span>Price:</span> ${cartItem.price / 100}
+                      <span>Price:</span> {formatter.format(cartItem.price / 100)}
                     </li>
                     <li>
                       <label htmlFor="quantity">
@@ -58,23 +69,49 @@ class Cart extends Component {
                     </li>
                     <li>
                       <span>Total:</span>{' '}
-                      {cartItem.order_product.totalPrice / 100}
+                      {formatter.format(
+                        (cartItem.price * cartItem.order_product.quantity) / 100
+                      )}
                     </li>
                     <button className="button primary">Remove</button>
                   </div>
                 ))}
               </ul>
-              <h3>Cart Total: 1,100,000</h3>
+              <h3>Cart Total:{' '}
+                {this.props.cart.length !== 0
+                  ? formatter.format(
+                      this.props.cart.reduce((final, cartItem) => {
+                        let count =
+                          cartItem.price * cartItem.order_product.quantity;
+                        return count + final;
+                      }, 0) / 100
+                    )
+                  : 'Roll on over to Start Shopping!'}</h3>
             </section>
-            <section className="checkout">
-              <button className="button primary">Checkout</button>
+              <section className="checkout">
+              {this.props.cart.length !== 0 ? (
+              <button
+                  className="checkoutButton"
+                  type="button"
+                  onClick={() => {
+                    this.props.checkout();
+                  
+                    this.props.history.push('/order-confirmed');
+                  }}
+                >
+                  Checkout
+                </button>
+            ) : (
+              <br />
+            )} 
             </section>
           </div>
         </section>
       </div>
     );
+
   }
-}
+);
 
 /**
  * CONTAINER
@@ -96,7 +133,8 @@ const mapDispatch = (dispatch) => {
     updateCart: (cart) => dispatch(updateCart(cart)),
     removeSingleCartItem: (cartItem) =>
       dispatch(removeSingleCartItem(cartItem)),
-    removeAllCartItems: (cart) => dispatch(removeAllCartItems(cart))
+    removeAllCartItems: (cart) => dispatch(removeAllCartItems(cart)),
+    checkout: () => dispatch(checkout())
   };
 };
 

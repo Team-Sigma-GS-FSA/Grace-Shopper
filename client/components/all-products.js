@@ -40,7 +40,6 @@ class AllProducts extends React.Component {
     // console.log('All Products firing');
     // console.log(allProducts[1]);
     return (
-
       <div className="grid-container">
         <header>
           <a href="/" className="header-text">
@@ -86,7 +85,6 @@ class AllProducts extends React.Component {
             </div>
           </div>
         </main>
-
       </div>
     );
   }

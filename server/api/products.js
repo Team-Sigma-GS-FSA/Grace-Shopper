@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { Product, Order, OrderProduct } = require('../db/models');
+const adminsOnly = require('../auth/adminsOnly');
 
 // GET /api/products "All Products"
 router.get('/', async (req, res, next) => {
@@ -39,7 +40,7 @@ router.get('/:productId', async (req, res, next) => {
 });
 
 // POST /api/products "New Product"
-router.post('/', async (req, res, next) => {
+router.post('/', adminsOnly, async (req, res, next) => {
   try {
     const product = await Product.findOrCreate({
       where: {
@@ -61,7 +62,7 @@ router.post('/', async (req, res, next) => {
 });
 
 // PUT /api/products/:productId "Update Product"
-router.put('/:productId', async (req, res, next) => {
+router.put('/:productId', adminsOnly, async (req, res, next) => {
   try {
     const { productId } = req.params;
     let product = await Product.findByPk(productId);
@@ -75,7 +76,7 @@ router.put('/:productId', async (req, res, next) => {
 });
 
 // DELETE /api/products/:productId "Delete Product"
-router.delete('/:productId', async (req, res, next) => {
+router.delete('/:productId', adminsOnly, async (req, res, next) => {
   try {
     let product = await Product.destroy({
       where: {

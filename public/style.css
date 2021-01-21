@@ -1,8 +1,47 @@
 body {
   font-family: sans-serif;
-  background-image: url('./bg.png');
+  color: aliceblue;
+}
+img.bg {
+  z-index: -1;
+  filter: blur(8px);
+
+  /* Set rules to fill background */
+  min-height: 100%;
+  min-width: 1024px;
+
+  /* Set up proportionate scaling */
+  width: 100%;
+  height: auto;
+
+  /* Set up positioning */
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 
+@media screen and (max-width: 1024px) {
+  /* Specific to this particular image */
+  img.bg {
+    left: 50%;
+    margin-left: -512px; /* 50% */
+  }
+}
+
+/* .content {
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 3px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  top: 10px;
+  left: 0;
+  position: fixed;
+  margin-left: 20px;
+  margin-right: 20px;
+  right: 0;
+  z-index: 2;
+  padding: 0 10px;
+} */
 a {
   text-decoration: none;
 }
@@ -28,7 +67,7 @@ form div {
 
 .header-text {
   font-size: 2rem;
-  color: black;
+  color: aliceblue;
   font-weight: bold;
 }
 
@@ -79,17 +118,17 @@ form div {
 }
 
 .product img:hover {
-  box-shadow: 2px 2px 15px #f0c040;
+  box-shadow: 2px 2px 15px #0e617b;
   transition: box-shadow 300ms linear;
 }
 
 .product h3 {
-  color: black;
+  color: aliceblue;
   font-size: 1.5rem;
 }
 
 .product h3:hover {
-  text-shadow: 2px 2px 1px #f0c040;
+  text-shadow: 2px 2px 1px #7ccfff;
 }
 
 .product-price h5 {
@@ -111,11 +150,11 @@ form div {
 }
 
 .button.primary {
-  background-color: #f0c040;
+  background-color: #9eeaf4;
 }
 
 .button.primary:hover {
-  background-color: #ffd700;
+  background-color: #4eb2ff9c;
 }
 
 /* Cart */

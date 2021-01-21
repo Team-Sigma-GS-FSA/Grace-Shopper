@@ -72,8 +72,8 @@ form div {
 }
 
 .product img {
-  width: 20rem;
-  height: 20rem;
+  width: 15rem;
+  height: 15rem;
   border-radius: 0.25rem;
   box-shadow: 2px 2px 5px black;
 }
@@ -104,6 +104,8 @@ form div {
   background-color: #f0f0f0;
   border-radius: 0.25rem;
   cursor: pointer;
+  border-style: solid;
+  border-width: 1px;
 }
 
 .button:hover {
@@ -202,5 +204,8 @@ label {
 
 .description {
   width: 50%;
+}
 
+.center {
+  margin-left: 3rem;
 }

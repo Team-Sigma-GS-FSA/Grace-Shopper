@@ -11,7 +11,7 @@ const AuthForm = (props) => {
 
   return (
     <div
-      className="w3-card-4 blue-grey"
+      className="w3-card-4 w3-blue-grey "
       style={{
         width: '20rem',
         position: 'relative',
@@ -46,7 +46,8 @@ const AuthForm = (props) => {
         href="/auth/google"
         className="button"
         style={{
-          marginLeft: '5.6rem'
+          marginLeft: '5.6rem',
+          color: 'black'
         }}
       >
         {displayName} with Google

@@ -48,7 +48,6 @@ router.post('/', async (req, res, next) => {
       cart = await user.createOrder({});
     }
 
-    console.log(req.body);
     let addedProduct = await Product.findByPk(req.body.id);
 
     await cart.addProduct(addedProduct);
@@ -148,7 +147,6 @@ router.delete('/:productId', async (req, res, next) => {
     cart = cart.filter((order) => order.products.length > 0)[0];
     const orderId = cart.id;
 
-    console.log('this is req.body', req.body);
     const orderProduct = await OrderProduct.findOne({
       where: {
         orderId: orderId,

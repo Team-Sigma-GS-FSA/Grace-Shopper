@@ -6,37 +6,43 @@ import { logout } from '../store';
 
 const Navbar = ({ handleClick, isLoggedIn, userName, cartSize }) => (
   <div>
-    <img className="bg" src="./img/night-carnival-lights.jpeg" />
+    <img className="bg" src="/img/night-carnival-lights.jpeg" />
     <h1 className="center">GYRE</h1>
     <nav>
       {isLoggedIn ? (
         <div>
           {/* The navbar will show these links after you log in */}
-          <Link to="/home">Home</Link>
-          <a href="#" onClick={handleClick}>
-            Logout
-          </a>
+          {/* <Link to="/home">Home</Link> */}
+          <Link to="/products">All Products</Link>
         </div>
       ) : (
         <div>
           {/* The navbar will show these links before you log in */}
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
           <Link to="/products">All Products</Link>
-          <Link to="/cart">Cart</Link>
         </div>
       )}
       {isLoggedIn ? (
         <div>
-          <Link to="/">{userName}</Link>
-          <Link to="/products">All Products</Link>
-          <Link to="/cart">Cart ({cartSize} items)</Link>
+          <Link to="/">
+            <strong>{userName}</strong>
+          </Link>
+          <a href="#" onClick={handleClick}>
+            Logout
+          </a>
+          <Link to="/cart">
+            Cart ({cartSize} {cartSize === 1 ? 'item' : 'items'})
+          </Link>
         </div>
       ) : (
         <div>
-          <Link to="/login">Guest</Link>
-          <Link to="/products">All Products</Link>
-          <Link to="/cart">Cart ({cartSize} items)</Link>
+          <Link to="/login">
+            <strong>Guest</strong>
+          </Link>
+          <Link to="/login">Login</Link>
+          <Link to="/signup">Sign Up</Link>
+          <Link to="/cart">
+            Cart ({cartSize} {cartSize === 1 ? 'item' : 'items'})
+          </Link>
         </div>
       )}
     </nav>

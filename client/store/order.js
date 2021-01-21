@@ -18,15 +18,15 @@ const cartState = {
 };
 
 //action creators
-const _getCart = (cart) => ({ type: GET_CART, cart });
-const _addToCart = (cartItem) => ({ type: ADD_TO_CART, cartItem });
-const _updateCart = (cartItem) => ({ type: UPDATE_CART, cartItem });
-const _removeSingleCartItem = (cartItem) => ({
+export const _getCart = (cart) => ({ type: GET_CART, cart });
+export const _addToCart = (cartItem) => ({ type: ADD_TO_CART, cartItem });
+export const _updateCart = (cartItem) => ({ type: UPDATE_CART, cartItem });
+export const _removeSingleCartItem = (cartItem) => ({
   type: REMOVE_SINGLE_CART_ITEM,
   cartItem
 });
-const _removeAllCartItems = () => ({ type: REMOVE_ALL_CART_ITEMS });
-const _setOrderId = (orderId) => ({ type: SET_ORDER_ID, orderId });
+export const _removeAllCartItems = () => ({ type: REMOVE_ALL_CART_ITEMS });
+export const _setOrderId = (orderId) => ({ type: SET_ORDER_ID, orderId });
 
 //Thunk creators
 export const getCart = () => async (dispatch) => {

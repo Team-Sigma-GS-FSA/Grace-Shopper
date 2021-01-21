@@ -24,7 +24,6 @@ class Routes extends Component {
 
   render() {
     const { isLoggedIn } = this.props;
-    console.log(UserSignUp);
 
     return (
       <Switch>

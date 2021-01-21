@@ -5,8 +5,9 @@ import product, {
   getSingleProduct,
   updateProduct
 } from '../store/product';
-import { addToCart } from '../store/order';
+import { addToCart, _addToCart } from '../store/order';
 import { withRouter } from 'react-router-dom';
+import { addToGuestCart } from '../guest';
 
 class SingleProduct extends React.Component {
   constructor(props) {
@@ -54,6 +55,10 @@ class SingleProduct extends React.Component {
   render() {
     const { singleProduct } = this.props.product;
     const { user } = this.props.user;
+    const formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    });
 
     return (
       <div
@@ -171,12 +176,18 @@ class SingleProduct extends React.Component {
                   fontSize: 18
                 }}
               >
-                ${singleProduct.price / 100}
+                {formatter.format(singleProduct.price / 100)}
               </span>
               <button
                 className="button primary"
                 onClick={() => {
-                  this.props.addToCart(singleProduct);
+                  if (this.props.user.id) {
+                    this.props.addToCart(singleProduct);
+                  } else {
+                    singleProduct.orders[0].order_product.quantity = 1;
+                    this.props._addToCart(singleProduct);
+                    addToGuestCart(singleProduct);
+                  }
                 }}
               >
                 Add To Cart
@@ -198,7 +209,8 @@ const mapDispatch = (dispatch) => ({
   getSingleProduct: (id) => dispatch(getSingleProduct(id)),
   addToCart: (cartItem) => dispatch(addToCart(cartItem)),
   updateProduct: (product) => dispatch(updateProduct(product)),
-  deleteProduct: (product) => dispatch(deleteProduct(product))
+  deleteProduct: (product) => dispatch(deleteProduct(product)),
+  _addToCart: (cartItem) => dispatch(_addToCart(cartItem))
 });
 
 export default connect(mapState, mapDispatch)(SingleProduct);

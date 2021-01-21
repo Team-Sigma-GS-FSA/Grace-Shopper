@@ -45,15 +45,13 @@ class UserSignUp extends Component {
     this.setState({
       [name]: value
     });
-    console.log('after', this.state);
   }
 
   async handleSubmit(event) {
     event.preventDefault();
-    console.log('state', this.state.state);
     try {
       await this.props.createUser(this.state);
-      this.setState({ defaultState, redirect: '/products' });
+      this.setState({ defaultState, redirect: '/login' });
     } catch (error) {
       this.setState({
         errorMessage: `Please try again. There was a problem creating your account: ${error.message}.`

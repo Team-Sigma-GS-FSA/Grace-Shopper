@@ -25,16 +25,17 @@ const UserSignupForm = (props) => {
 
   return (
     <div
-      className="w3-card-4 w3-blue-grey"
+      className="w3-card-4 w3-light-blue"
       style={{
         width: '40rem',
         position: 'relative',
         borderRadius: '25px',
         height: '43rem',
-        marginLeft: '30%'
+        marginLeft: '30%',
+        opacity: '.89'
       }}
     >
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} style={{ paddingLeft: '5rem' }}>
         <br />
 
         <div>
@@ -502,7 +503,7 @@ const UserSignupForm = (props) => {
             <option value="AMEX">American Express</option>
           </select>
         </div>
-
+        <br />
         <div>
           <label htmlFor="cardExpMonth">expiration month:</label>
           <select
@@ -557,7 +558,9 @@ const UserSignupForm = (props) => {
         </div>
 
         <br />
-        <button type="submit" style={{ marginLeft: '16rem' }}>
+        <br />
+
+        <button type="submit" style={{ marginLeft: '11rem' }}>
           Submit User
         </button>
         {/* <div>

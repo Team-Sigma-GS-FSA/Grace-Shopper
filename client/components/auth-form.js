@@ -23,13 +23,14 @@ const AuthForm = (props) => {
   return (
     <div>
       <div
-        className="w3-card-4 blue-grey"
+        className="w3-card-4 w3-light-blue"
         style={{
           width: '20rem',
           position: 'relative',
           borderRadius: '25px',
           height: '18rem',
-          marginLeft: '38%'
+          marginLeft: '38%',
+          opacity: '.85'
         }}
       >
         <form onSubmit={handleSubmit} name={name}>

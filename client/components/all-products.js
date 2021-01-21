@@ -1,10 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-
 import { getProducts } from '../store/product';
 import { addToCart } from '../store/order';
-import SideCart from './side-cart';
 
 class AllProducts extends React.Component {
   constructor(props) {
@@ -35,10 +33,7 @@ class AllProducts extends React.Component {
   render() {
     const { allProducts } = this.props.products;
     const { user } = this.props.user;
-    // console.log('user in render', user);
-    // console.log('this.props in render allproducts', this.props);
-    // console.log('All Products firing');
-    // console.log(allProducts[1]);
+
     return (
       <div className="grid-container">
         <header>
@@ -80,9 +75,6 @@ class AllProducts extends React.Component {
                     ))
                   : 'No Products Available!'}
               </ul>
-            </div>
-            <div className="sidebar">
-              <SideCart cartItems={this.state.cartItems} />
             </div>
           </div>
         </main>

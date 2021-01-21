@@ -5,30 +5,9 @@ import { getProducts } from '../store/product';
 import { addToCart } from '../store/order';
 
 class AllProducts extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      cartItems: []
-    };
-  }
   componentDidMount() {
     this.props.getProducts();
   }
-
-  addItemsToCart = (product) => {
-    const cartItems = this.state.cartItems.slice();
-    let alreadyInCart = false;
-    cartItems.forEach((item) => {
-      if (item.id === product.id) {
-        item.count++;
-        alreadyInCart = true;
-      }
-    });
-    if (!alreadyInCart) {
-      cartItems.push({ ...product, count: 1 });
-    }
-    this.setState({ cartItems });
-  };
 
   render() {
     const { allProducts } = this.props.products;
@@ -64,7 +43,7 @@ class AllProducts extends React.Component {
                               type="button"
                               className="button primary"
                               onClick={() => {
-                                this.addItemsToCart(product);
+                                this.props.addToCart(product);
                               }}
                             >
                               Add To Cart
@@ -90,7 +69,7 @@ const mapState = (state) => ({
 
 const mapDispatch = (dispatch) => ({
   getProducts: () => dispatch(getProducts()),
-  addToCart: (user, cartItem) => dispatch(addToCart(user, cartItem))
+  addToCart: (cartItem) => dispatch(addToCart(cartItem))
 });
 
 export default connect(mapState, mapDispatch)(AllProducts);

@@ -58,7 +58,7 @@ class SingleProduct extends React.Component {
     return (
       <div
         className="single-product w3-card w3-blue-grey"
-        style={{ width: '30rem', height: '100%' }}
+        style={{ width: '30rem', height: '100%', borderRadius: '25px' }}
       >
         {user.type === 'admin' ? (
           <div>

@@ -139,7 +139,6 @@ router.post('/', async (req, res, next) => {
         type: req.body.type,
         email: req.body.email,
         password: req.body.password,
-        name: req.body.name,
         street: req.body.street,
         city: req.body.city,
         state: req.body.state,
@@ -151,7 +150,7 @@ router.post('/', async (req, res, next) => {
         cardExpYear: req.body.cardExpYear
       }
     });
-    res.sendStatus(204).json(user);
+    res.status(204).json(user);
   } catch (error) {
     next(error);
   }

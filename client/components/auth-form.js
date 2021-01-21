@@ -55,7 +55,7 @@ const AuthForm = (props) => {
           </div>
           {error && error.response && <div> {error.response.data} </div>}
         </form>
-        <a
+        {/* <a
           href="/auth/google"
           className="button"
           style={{
@@ -63,7 +63,7 @@ const AuthForm = (props) => {
           }}
         >
           {displayName} with Google
-        </a>
+        </a> */}
       </div>
 
       <div className="slick-container">

@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getProducts } from '../store/product';
-import { addToCart } from '../store/order';
+import { addToCart, _addToCart } from '../store/order';
+import { addToGuestCart } from '../guest';
 
 class AllProducts extends React.Component {
   componentDidMount() {
@@ -12,6 +13,10 @@ class AllProducts extends React.Component {
   render() {
     const { allProducts } = this.props.products;
     const { user } = this.props.user;
+    const formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    });
 
     return (
       <div className="grid-container">
@@ -37,13 +42,19 @@ class AllProducts extends React.Component {
                           </Link>
                           <div className="product-price">
                             <div>
-                              <h5>${product.price / 100}</h5>
+                              <h5>{formatter.format(product.price / 100)}</h5>
                             </div>
                             <button
                               type="button"
                               className="button primary"
                               onClick={() => {
-                                this.props.addToCart(product);
+                                if (user.id) {
+                                  this.props.addToCart(product);
+                                } else {
+                                  product.orders[0].order_product.quantity = 1;
+                                  this.props._addToCart(product);
+                                  addToGuestCart(product);
+                                }
                               }}
                             >
                               Add To Cart
@@ -52,7 +63,7 @@ class AllProducts extends React.Component {
                         </div>
                       </li>
                     ))
-                  : 'No Products Available!'}
+                  : 'Loading ...'}
               </ul>
             </div>
           </div>
@@ -69,7 +80,8 @@ const mapState = (state) => ({
 
 const mapDispatch = (dispatch) => ({
   getProducts: () => dispatch(getProducts()),
-  addToCart: (cartItem) => dispatch(addToCart(cartItem))
+  addToCart: (cartItem) => dispatch(addToCart(cartItem)),
+  _addToCart: (cartItem) => dispatch(_addToCart(cartItem))
 });
 
 export default connect(mapState, mapDispatch)(AllProducts);

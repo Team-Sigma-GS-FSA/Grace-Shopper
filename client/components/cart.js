@@ -1,45 +1,62 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
   getCart,
   updateCart,
   removeSingleCartItem,
   removeAllCartItems,
   checkout,
-} from "../store/order";
-import { withRouter } from "react-router-dom";
+  _addToCart,
+  _updateCart,
+  _removeSingleCartItem,
+  _removeAllCartItems
+} from '../store/order';
+import { withRouter } from 'react-router-dom';
+import {
+  getGuestCart,
+  clearGuestCart,
+  editGuestCart,
+  removeFromGuestCart
+} from '../guest';
 
 const Cart = withRouter(
   class extends Component {
     constructor() {
       super();
       this.state = {
-        quantities: {},
+        quantities: {}
       };
     }
 
     componentDidMount() {
-      this.props.getCart(this.props.cart);
+      if (this.props.user.id) {
+        this.props.getCart(this.props.cart);
+      } else {
+        this.props._removeAllCartItems();
+        const guestCart = getGuestCart();
+        guestCart.forEach((product) => {
+          this.props._addToCart(product);
+        });
+      }
     }
 
     handleChange = (event) => {
       this.setState({
         quantities: {
           ...this.state.quantities,
-          [event.target.id]: +event.target.value,
-        },
+          [event.target.id]: +event.target.value
+        }
       });
-      console.log("this.state.quantities", this.state.quantities);
     };
 
     render() {
       let isLoggedIn;
-      if (this.props.user) {
+      if (this.props.user.id) {
         isLoggedIn = true;
       }
-      const formatter = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
+      const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD'
       });
       return (
         <div>
@@ -64,7 +81,7 @@ const Cart = withRouter(
                           <img src={cartItem.imageUrl} alt={cartItem.name} />
                         </li>
                         <li>
-                          <span>Price:</span>{" "}
+                          <span>Price:</span>{' '}
                           {formatter.format(cartItem.price / 100)}
                         </li>
                         <li>
@@ -83,30 +100,50 @@ const Cart = withRouter(
                           ></input>
                           <button
                             className="button primary"
-                            onClick={() =>
-                              this.props.updateCart({
-                                id: cartItem.id,
-                                quantity: this.state.quantities[
+                            onClick={() => {
+                              if (this.props.user.id) {
+                                this.props.updateCart({
+                                  id: cartItem.id,
+                                  quantity: this.state.quantities[
+                                    `quantity-${cartItem.id}`
+                                  ]
+                                });
+                              } else {
+                                cartItem.orders[0].order_product.quantity = this.state.quantities[
                                   `quantity-${cartItem.id}`
-                                ],
-                              })
-                            }
+                                ];
+                                editGuestCart(
+                                  cartItem,
+                                  this.state.quantities[
+                                    `quantity-${cartItem.id}`
+                                  ]
+                                );
+                                this.props._updateCart({
+                                  cartItem
+                                });
+                              }
+                            }}
                           >
                             Update
                           </button>
                         </li>
                         <li>
-                          <span>Total:</span>{" "}
+                          <span>Total:</span>{' '}
                           {formatter.format(
-                            (cartItem.price * cartItem.order_product.quantity) /
+                            (cartItem.price *
+                              cartItem.orders[0].order_product.quantity) /
                               100
                           )}
                         </li>
                         <button
                           className="button primary"
                           onClick={() => {
-                            console.log(cartItem);
-                            this.props.removeSingleCartItem(cartItem);
+                            if (this.props.user.id) {
+                              this.props.removeSingleCartItem(cartItem);
+                            } else {
+                              removeFromGuestCart(cartItem);
+                              this.props._removeSingleCartItem(cartItem);
+                            }
                           }}
                         >
                           Remove
@@ -115,16 +152,17 @@ const Cart = withRouter(
                     ))}
                   </ul>
                   <h3>
-                    Cart Total:{" "}
+                    Cart Total:{' '}
                     {this.props.cart.length !== 0
                       ? formatter.format(
                           this.props.cart.reduce((final, cartItem) => {
                             let count =
-                              cartItem.price * cartItem.order_product.quantity;
+                              cartItem.price *
+                              cartItem.orders[0].order_product.quantity;
                             return count + final;
                           }, 0) / 100
                         )
-                      : "Roll on over to Start Shopping!"}
+                      : 'Roll on over to Start Shopping!'}
                   </h3>
                 </section>
                 <section className="checkout">
@@ -134,7 +172,7 @@ const Cart = withRouter(
                     onClick={() => {
                       this.props.checkout();
 
-                      this.props.history.push("/order-confirmed");
+                      this.props.history.push('/order-confirmed');
                     }}
                   >
                     Checkout
@@ -142,7 +180,14 @@ const Cart = withRouter(
                   <button
                     className="button primary"
                     type="button"
-                    onClick={() => this.props.removeAllCartItems()}
+                    onClick={() => {
+                      if (this.props.user.id) {
+                        this.props.removeAllCartItems();
+                      } else {
+                        clearGuestCart();
+                        this.props._removeAllCartItems();
+                      }
+                    }}
                   >
                     Clear Cart
                   </button>
@@ -164,7 +209,7 @@ const mapState = (state) => {
   return {
     user: state.user.user,
     cart: state.order.cart,
-    cartItem: state.order.cartItem,
+    cartItem: state.order.cartItem
   };
 };
 
@@ -179,6 +224,11 @@ const mapDispatch = (dispatch) => {
       dispatch(removeSingleCartItem(cartItem)),
     removeAllCartItems: () => dispatch(removeAllCartItems()),
     checkout: () => dispatch(checkout()),
+    _addToCart: (cartItem) => dispatch(_addToCart(cartItem)),
+    _updateCart: (cartItem) => dispatch(_updateCart(cartItem)),
+    _removeSingleCartItem: (cartItem) =>
+      dispatch(_removeSingleCartItem(cartItem)),
+    _removeAllCartItems: () => dispatch(_removeAllCartItems())
   };
 };
 

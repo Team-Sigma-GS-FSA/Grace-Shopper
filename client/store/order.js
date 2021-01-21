@@ -36,36 +36,36 @@ export const getCart = () => async (dispatch) => {
   }
 };
 
-export const addToCart = (user, cartItem) => async (dispatch) => {
+export const addToCart = (cartItem) => async (dispatch) => {
   try {
-    const { data } = await axios.post(`/api/users/${user.id}/cart`, cartItem);
+    const { data } = await axios.post(`/api/users/cart`, cartItem);
     dispatch(_addToCart(data));
   } catch (error) {
     console.error(error);
   }
 };
 
-export const updateCart = (user, cart) => async (dispatch) => {
+export const updateCart = (cartItem) => async (dispatch) => {
   try {
-    const { data } = await axios.put(`/api/users/${user.id}/cart`, cart);
+    const { data } = await axios.put(`/api/users/cart`, cartItem);
     dispatch(_updateCart(data));
   } catch (error) {
     console.error(error);
   }
 };
 
-export const removeSingleCartItem = (user, cartItem) => async (dispatch) => {
+export const removeSingleCartItem = (cartItem) => async (dispatch) => {
   try {
-    await axios.delete(`/api/users/${user.id}/cart`, cartItem);
+    await axios.delete(`/api/users/cart`, cartItem);
     dispatch(_removeSingleCartItem(cartItem));
   } catch (error) {
     console.error(error);
   }
 };
 
-export const removeAllCartItems = (user, cart) => async (dispatch) => {
+export const removeAllCartItems = () => async (dispatch) => {
   try {
-    await axios.delete(`/api/users/${user.id}/cart`);
+    await axios.delete(`/api/users/cart/all`);
     dispatch(_removeAllCartItems());
   } catch (error) {
     console.error(error);

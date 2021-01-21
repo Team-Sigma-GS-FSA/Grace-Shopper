@@ -40,13 +40,13 @@ class Cart extends Component {
                         <span>Price:</span> ${cartItem.price / 100}
                       </li>
                       <li>
-                        <label htmlFor="quantity">
+                        <label htmlFor={`quantity-${cartItem.id}`}>
                           <span>Quantity: </span>
                         </label>
                         <input
                           type="number"
-                          id="quantity"
-                          name="quantity"
+                          id={`quantity-${cartItem.id}`}
+                          name={`quantity-${cartItem.id}`}
                           min="0"
                           defaultValue={
                             cartItem.orders[0].order_product.quantity
@@ -84,8 +84,8 @@ class Cart extends Component {
 const mapState = (state) => {
   return {
     user: state.user.user,
-    cart: state.order.cart
-    // cartItem: state.cartItem
+    cart: state.order.cart,
+    cartItem: state.cartItem
   };
 };
 
@@ -94,11 +94,11 @@ const mapState = (state) => {
  */
 const mapDispatch = (dispatch) => {
   return {
-    getCart: (cart) => dispatch(getCart(cart))
-    // updateCart: (cart) => dispatch(updateCart(cart)),
-    // removeSingleCartItem: (cartItem) =>
-    //   dispatch(removeSingleCartItem(cartItem)),
-    // removeAllCartItems: (cart) => dispatch(removeAllCartItems(cart))
+    getCart: (cart) => dispatch(getCart(cart)),
+    updateCart: (cart) => dispatch(updateCart(cart)),
+    removeSingleCartItem: (cartItem) =>
+      dispatch(removeSingleCartItem(cartItem)),
+    removeAllCartItems: (cart) => dispatch(removeAllCartItems(cart))
   };
 };
 

@@ -25,9 +25,10 @@ router.get('/', async (req, res, next) => {
 // POST /api/cart "Add Cart Items"
 router.post('/', async (req, res, next) => {
   try {
-    const order = await Order.findorCreate({
+    const user = req.user;
+    let cart = await Order.findAll({
       where: {
-        userId: req.user.id
+        userId: user.id
       },
       include: [
         {
@@ -41,67 +42,95 @@ router.post('/', async (req, res, next) => {
         }
       ]
     });
-    res.json(order);
+    cart = cart.filter((order) => order.products.length > 0)[0];
+
+    if (!cart) {
+      cart = await user.createOrder({});
+    }
+
+    const addedProduct = await Product.findByPk(req.body.productId);
+
+    await cart.addProduct(addedProduct);
+
+    cart = await cart.getProducts();
+    res.json(addedProduct);
   } catch (error) {
     next(error);
   }
 });
 
 // PUT /api/cart "Update Cart Items"
-// router.put('/cart', async (req, res, next) => {
-//   try {
-//     const order = await Order.findOne({
-//       where: {
-//         userId: req.user.id
-//       },
-//       include: [
-//         {
-//           model: Product,
-//           through: {
-//             model: OrderProduct,
-//             where: {
-//               orderId: req.body.order.id
-//             }
-//           }
-//         }
-//       ]
-//     });
+router.put('/', async (req, res, next) => {
+  try {
+    const user = req.user;
+    let cart = await Order.findAll({
+      where: {
+        userId: user.id
+      },
+      include: [
+        {
+          model: Product,
+          through: {
+            model: OrderProduct,
+            where: {
+              purchased: false
+            }
+          }
+        }
+      ]
+    });
+    cart = cart.filter((order) => order.products.length > 0)[0];
 
-//     order = await order.update(req.body);
+    let editedProduct;
 
-//     res.json(order);
-//   } catch (error) {
-//     next(error);
-//   }
-// });
+    await cart.products.forEach(async (product) => {
+      if (product.id === req.body.productId) {
+        editedProduct = product;
+        await product.order_product.update({ quantity: req.body.quantity });
+      }
+    });
+
+    res.json(editedProduct);
+  } catch (error) {
+    next(error);
+  }
+});
 
 // DELETE /api/cart/item "Delete Single Cart Item"
-// router.delete('/item', async (req, res, next) => {
-//   try {
-//     const order = await Order.findOne({
-//       where: {
-//         userId: req.user.id
-//       },
-//       include: [
-//         {
-//           model: Product,
-//           through: {
-//             model: OrderProduct,
-//             where: {
-//               productId: req.body.id
-//             }
-//           }
-//         }
-//       ]
-//     });
-//     res.json(order);
-//   } catch (error) {
-//     next(error);
-//   }
-// });
-
-// DELETE /api/cart "Delete All Cart Items"
 router.delete('/', async (req, res, next) => {
+  try {
+    const user = req.user;
+    let cart = await Order.findAll({
+      where: {
+        userId: user.id
+      },
+      include: [
+        {
+          model: Product,
+          through: {
+            model: OrderProduct,
+            where: {
+              purchased: false
+            }
+          }
+        }
+      ]
+    });
+    cart = cart.filter((order) => order.products.length > 0)[0];
+
+    const deletedProduct = await Product.findByPk(req.body.productId);
+
+    await cart.removeProduct(deletedProduct);
+
+    cart = await cart.getProducts();
+    res.json(deletedProduct);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// DELETE /api/cart/all "Delete All Cart Items"
+router.delete('/all', async (req, res, next) => {
   try {
     if (req.user) {
       const cart = await Order.findAll({

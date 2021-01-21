@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 import { getProducts } from '../store/product';
 import { addToCart } from '../store/order';
-import SideCart from './side-cart';
 
 class AllProducts extends React.Component {
   constructor(props) {
@@ -87,12 +86,6 @@ class AllProducts extends React.Component {
                   : 'No Products Available!'}
               </ul>
             </div>
-            <div className="sidebar">
-              <SideCart
-                cartItems={this.state.cartItems}
-                removeFromCart={this.removeFromCart}
-              />
-            </div>
           </div>
         </main>
       </div>
@@ -107,7 +100,7 @@ const mapState = (state) => ({
 
 const mapDispatch = (dispatch) => ({
   getProducts: () => dispatch(getProducts()),
-  addToCart: (user, cartItem) => dispatch(addToCart(user, cartItem))
+  addToCart: (cartItem) => dispatch(addToCart(cartItem))
 });
 
 export default connect(mapState, mapDispatch)(AllProducts);

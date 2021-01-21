@@ -24,7 +24,16 @@ const UserSignupForm = (props) => {
   } = props;
 
   return (
-    <div className="wrapper">
+    <div
+      className="w3-card-4 w3-blue-grey"
+      style={{
+        width: '40rem',
+        position: 'relative',
+        borderRadius: '25px',
+        height: '43rem',
+        marginLeft: '30%'
+      }}
+    >
       <form onSubmit={handleSubmit}>
         <br />
 
@@ -548,7 +557,9 @@ const UserSignupForm = (props) => {
         </div>
 
         <br />
-        <button type="submit">Submit User</button>
+        <button type="submit" style={{ marginLeft: '16rem' }}>
+          Submit User
+        </button>
         {/* <div>
           {errors[0] === undefined ? (
             <div className="back">

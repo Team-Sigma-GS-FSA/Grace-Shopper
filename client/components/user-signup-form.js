@@ -24,8 +24,18 @@ const UserSignupForm = (props) => {
   } = props;
 
   return (
-    <div className="wrapper">
-      <form onSubmit={handleSubmit}>
+    <div
+      className="w3-card-4 w3-light-blue"
+      style={{
+        width: '40rem',
+        position: 'relative',
+        borderRadius: '25px',
+        height: '43rem',
+        marginLeft: '30%',
+        opacity: '.89'
+      }}
+    >
+      <form onSubmit={handleSubmit} style={{ paddingLeft: '5rem' }}>
         <br />
 
         <div>
@@ -493,7 +503,7 @@ const UserSignupForm = (props) => {
             <option value="AMEX">American Express</option>
           </select>
         </div>
-
+        <br />
         <div>
           <label htmlFor="cardExpMonth">expiration month:</label>
           <select
@@ -548,7 +558,11 @@ const UserSignupForm = (props) => {
         </div>
 
         <br />
-        <button type="submit">Submit User</button>
+        <br />
+
+        <button type="submit" style={{ marginLeft: '11rem' }}>
+          Submit User
+        </button>
         {/* <div>
           {errors[0] === undefined ? (
             <div className="back">

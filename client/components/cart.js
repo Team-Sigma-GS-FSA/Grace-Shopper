@@ -157,7 +157,6 @@ const Cart = withRouter(
     }
   }
 );
-
 /**
  * CONTAINER
  */

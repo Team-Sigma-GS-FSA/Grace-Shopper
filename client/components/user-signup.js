@@ -76,12 +76,17 @@ class UserSignUp extends Component {
     }
 
     return (
-      <UserSignupForm
-        {...this.state}
-        toggleShow={this.toggleShow}
-        handleChange={this.handleChange}
-        handleSubmit={this.handleSubmit}
-      />
+      <>
+        <h3 className="newAccount">Make Your New User Account!</h3>
+        <div>
+          <UserSignupForm
+            {...this.state}
+            toggleShow={this.toggleShow}
+            handleChange={this.handleChange}
+            handleSubmit={this.handleSubmit}
+          />
+        </div>
+      </>
     );
   }
 }

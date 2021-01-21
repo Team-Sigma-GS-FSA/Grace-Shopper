@@ -54,10 +54,17 @@ class SingleProduct extends React.Component {
   render() {
     const { singleProduct } = this.props.product;
     const { user } = this.props.user;
-    console.log('PROPS', user);
 
     return (
-      <div className="single-product">
+      <div
+        className="single-product w3-card w3-light-blue"
+        style={{
+          width: '30rem',
+          height: '100%',
+          borderRadius: '25px',
+          opacity: '.89'
+        }}
+      >
         {user.type === 'admin' ? (
           <div>
             <form onSubmit={this.handleUpdate}>
@@ -156,17 +163,28 @@ class SingleProduct extends React.Component {
           <div>
             <h3 className="single-title">{singleProduct.name}</h3>
             <img src={singleProduct.imageUrl} />
-            <h3 className="single-price">${singleProduct.price / 100}</h3>
+            <div className="single-line">
+              <span
+                style={{
+                  paddingLeft: '7rem',
+                  paddingRight: '5rem',
+                  fontSize: 18
+                }}
+              >
+                ${singleProduct.price / 100}
+              </span>
+              <button
+                className="button primary"
+                onClick={() => {
+                  this.props.addToCart(singleProduct);
+                }}
+              >
+                Add To Cart
+              </button>
+            </div>
             <h3 className="description">{singleProduct.description}</h3>
-            <button
-              className="button primary"
-              onClick={() => {
-                this.props.addToCart(singleProduct);
-              }}
-            >
-              Add To Cart
-            </button>
           </div>
+        )}
       </div>
     );
   }

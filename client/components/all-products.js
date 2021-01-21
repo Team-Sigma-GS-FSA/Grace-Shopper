@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-
 import { getProducts } from '../store/product';
 import { addToCart } from '../store/order';
 
@@ -13,10 +12,7 @@ class AllProducts extends React.Component {
   render() {
     const { allProducts } = this.props.products;
     const { user } = this.props.user;
-    // console.log('user in render', user);
-    // console.log('this.props in render allproducts', this.props);
-    // console.log('All Products firing');
-    // console.log(allProducts[1]);
+
     return (
       <div className="grid-container">
         <header>
@@ -44,6 +40,7 @@ class AllProducts extends React.Component {
                               <h5>${product.price / 100}</h5>
                             </div>
                             <button
+                              type="button"
                               className="button primary"
                               onClick={() => {
                                 this.props.addToCart(product);

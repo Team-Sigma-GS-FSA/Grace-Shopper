@@ -76,6 +76,6 @@ export default function (state = productState, action) {
         (product) => product.id !== action.product.id
       );
     default:
-      return productState;
+      return state;
   }
 }

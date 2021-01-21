@@ -18,7 +18,7 @@ const cartState = {
 //action creators
 const _getCart = (cart) => ({ type: GET_CART, cart });
 const _addToCart = (cartItem) => ({ type: ADD_TO_CART, cartItem });
-const _updateCart = (cart) => ({ type: UPDATE_CART, cart });
+const _updateCart = (cartItem) => ({ type: UPDATE_CART, cartItem });
 const _removeSingleCartItem = (cartItem) => ({
   type: REMOVE_SINGLE_CART_ITEM,
   cartItem
@@ -38,7 +38,8 @@ export const getCart = () => async (dispatch) => {
 
 export const addToCart = (cartItem) => async (dispatch) => {
   try {
-    const { data } = await axios.post(`/api/users/cart`, cartItem);
+    const { data } = await axios.post(`/api/cart`, cartItem);
+    console.log('data in thunk addtocart', data);
     dispatch(_addToCart(data));
   } catch (error) {
     console.error(error);
@@ -47,7 +48,7 @@ export const addToCart = (cartItem) => async (dispatch) => {
 
 export const updateCart = (cartItem) => async (dispatch) => {
   try {
-    const { data } = await axios.put(`/api/users/cart`, cartItem);
+    const { data } = await axios.put(`/api/cart`, cartItem);
     dispatch(_updateCart(data));
   } catch (error) {
     console.error(error);
@@ -56,7 +57,7 @@ export const updateCart = (cartItem) => async (dispatch) => {
 
 export const removeSingleCartItem = (cartItem) => async (dispatch) => {
   try {
-    await axios.delete(`/api/users/cart`, cartItem);
+    await axios.delete(`/api/cart/${cartItem.id}`, cartItem);
     dispatch(_removeSingleCartItem(cartItem));
   } catch (error) {
     console.error(error);
@@ -65,7 +66,7 @@ export const removeSingleCartItem = (cartItem) => async (dispatch) => {
 
 export const removeAllCartItems = () => async (dispatch) => {
   try {
-    await axios.delete(`/api/users/cart/all`);
+    await axios.delete(`/api/cart/all`);
     dispatch(_removeAllCartItems());
   } catch (error) {
     console.error(error);
@@ -93,7 +94,7 @@ export default function (state = cartState, action) {
         ]
       };
     case ADD_TO_CART:
-      return { ...state, cart: [...cart, action.cartItem] };
+      return { ...state, cart: [...state.cart, action.cartItem] };
     case UPDATE_CART:
       return {
         ...state,
@@ -111,6 +112,6 @@ export default function (state = cartState, action) {
     case REMOVE_ALL_CART_ITEMS:
       return { ...state, cart: [] };
     default:
-      return cartState;
+      return state;
   }
 }

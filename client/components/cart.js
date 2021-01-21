@@ -2,17 +2,40 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
   getCart,
+  updateCart,
   removeSingleCartItem,
   removeAllCartItems
 } from '../store/order';
 
 class Cart extends Component {
+  constructor() {
+    super();
+    this.state = {
+      quantities: {}
+    };
+  }
+
   componentDidMount() {
     this.props.getCart(this.props.cart);
   }
 
+  handleChange = (event) => {
+    this.setState({
+      quantities: {
+        ...this.state.quantities,
+        [event.target.id]: +event.target.value
+      }
+    });
+    console.log('this.state.quantities', this.state.quantities);
+  };
+
   render() {
-    let isLoggedIn = true;
+    let isLoggedIn;
+    if (this.props.user) {
+      isLoggedIn = true;
+    }
+
+    console.log('this.props in cart', this.propp);
 
     return (
       <div>
@@ -51,7 +74,21 @@ class Cart extends Component {
                           defaultValue={
                             cartItem.orders[0].order_product.quantity
                           }
+                          onChange={this.handleChange}
                         ></input>
+                        <button
+                          className="button primary"
+                          onClick={() =>
+                            this.props.updateCart({
+                              id: cartItem.id,
+                              quantity: this.state.quantities[
+                                `quantity-${cartItem.id}`
+                              ]
+                            })
+                          }
+                        >
+                          Update
+                        </button>
                       </li>
                       <li>
                         <span>Total:</span>{' '}
@@ -59,7 +96,15 @@ class Cart extends Component {
                           cartItem.price) /
                           100}
                       </li>
-                      <button className="button primary">Remove</button>
+                      <button
+                        className="button primary"
+                        onClick={() => {
+                          console.log(cartItem);
+                          this.props.removeSingleCartItem(cartItem);
+                        }}
+                      >
+                        Remove
+                      </button>
                     </div>
                   ))}
                 </ul>
@@ -67,6 +112,12 @@ class Cart extends Component {
               </section>
               <section className="checkout">
                 <button className="button primary">Checkout</button>
+                <button
+                  className="button primary"
+                  onClick={() => this.props.removeAllCartItems()}
+                >
+                  Clear Cart
+                </button>
               </section>
             </div>
           ) : (
@@ -85,7 +136,7 @@ const mapState = (state) => {
   return {
     user: state.user.user,
     cart: state.order.cart,
-    cartItem: state.cartItem
+    cartItem: state.order.cartItem
   };
 };
 
@@ -95,10 +146,10 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     getCart: (cart) => dispatch(getCart(cart)),
-    updateCart: (cart) => dispatch(updateCart(cart)),
+    updateCart: (cartItem) => dispatch(updateCart(cartItem)),
     removeSingleCartItem: (cartItem) =>
       dispatch(removeSingleCartItem(cartItem)),
-    removeAllCartItems: (cart) => dispatch(removeAllCartItems(cart))
+    removeAllCartItems: () => dispatch(removeAllCartItems())
   };
 };
 

@@ -22,7 +22,7 @@ class SingleProduct extends React.Component {
         <button
           className="button primary"
           onClick={() => {
-            this.addItemsToCart(product);
+            this.props.addToCart(singleProduct);
           }}
         >
           Add To Cart

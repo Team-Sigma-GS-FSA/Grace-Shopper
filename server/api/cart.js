@@ -48,9 +48,21 @@ router.post('/', async (req, res, next) => {
       cart = await user.createOrder({});
     }
 
-    const addedProduct = await Product.findByPk(req.body.productId);
+    console.log(req.body);
+    let addedProduct = await Product.findByPk(req.body.id);
 
     await cart.addProduct(addedProduct);
+    addedProduct = await Product.findByPk(req.body.id, {
+      include: [
+        {
+          model: Order,
+          where: {
+            userId: req.user.id
+          },
+          through: { model: OrderProduct, where: { purchased: false } }
+        }
+      ]
+    });
 
     cart = await cart.getProducts();
     res.json(addedProduct);
@@ -80,24 +92,41 @@ router.put('/', async (req, res, next) => {
       ]
     });
     cart = cart.filter((order) => order.products.length > 0)[0];
+    const orderId = cart.id;
 
-    let editedProduct;
-
-    await cart.products.forEach(async (product) => {
-      if (product.id === req.body.productId) {
-        editedProduct = product;
-        await product.order_product.update({ quantity: req.body.quantity });
+    const orderProduct = await OrderProduct.findOne({
+      where: {
+        orderId: orderId,
+        productId: req.body.id
       }
     });
 
+    await orderProduct.update({ quantity: req.body.quantity });
+
+    let editedProduct = await Product.findByPk(req.body.id, {
+      include: [
+        {
+          model: Order,
+          where: {
+            userId: req.user.id
+          },
+          through: {
+            model: OrderProduct,
+            where: {
+              purchased: false
+            }
+          }
+        }
+      ]
+    });
     res.json(editedProduct);
   } catch (error) {
     next(error);
   }
 });
 
-// DELETE /api/cart/item "Delete Single Cart Item"
-router.delete('/', async (req, res, next) => {
+// DELETE /api/cart/:productId "Delete Single Cart Item"
+router.delete('/:productId', async (req, res, next) => {
   try {
     const user = req.user;
     let cart = await Order.findAll({
@@ -117,12 +146,21 @@ router.delete('/', async (req, res, next) => {
       ]
     });
     cart = cart.filter((order) => order.products.length > 0)[0];
+    const orderId = cart.id;
+
+    console.log('this is req.body', req.body);
+    const orderProduct = await OrderProduct.findOne({
+      where: {
+        orderId: orderId,
+        productId: +req.params.productId
+      }
+    });
+
+    await orderProduct.destroy();
 
     const deletedProduct = await Product.findByPk(req.body.productId);
 
-    await cart.removeProduct(deletedProduct);
-
-    cart = await cart.getProducts();
+    // cart = await cart.getProducts();
     res.json(deletedProduct);
   } catch (error) {
     next(error);

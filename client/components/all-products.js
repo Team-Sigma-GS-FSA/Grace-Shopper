@@ -66,6 +66,7 @@ class AllProducts extends React.Component {
                               <h5>${product.price / 100}</h5>
                             </div>
                             <button
+                              type="button"
                               className="button primary"
                               onClick={() => {
                                 this.addItemsToCart(product);

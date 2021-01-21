@@ -76,12 +76,27 @@ class UserSignUp extends Component {
     }
 
     return (
-      <UserSignupForm
-        {...this.state}
-        toggleShow={this.toggleShow}
-        handleChange={this.handleChange}
-        handleSubmit={this.handleSubmit}
-      />
+      <>
+        <h3 className="newAccount">Make Your New User Account!</h3>
+        <div
+          className="w3-card-4 blue-grey center"
+          style={{
+            width: '50%',
+            position: 'relative',
+            borderRadius: '25px',
+            display: 'flex',
+            justifycontent: 'center',
+            marginLeft: '25%'
+          }}
+        >
+          <UserSignupForm
+            {...this.state}
+            toggleShow={this.toggleShow}
+            handleChange={this.handleChange}
+            handleSubmit={this.handleSubmit}
+          />
+        </div>
+      </>
     );
   }
 }

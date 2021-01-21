@@ -7,7 +7,7 @@ import { logout } from '../store';
 const Navbar = ({ handleClick, isLoggedIn, userName, cartSize }) => (
   <div>
     <img className="bg" src="./img/night-carnival-lights.jpeg" />
-    <h1>GYRE</h1>
+    <h1 className="center">GYRE</h1>
     <nav>
       {isLoggedIn ? (
         <div>
